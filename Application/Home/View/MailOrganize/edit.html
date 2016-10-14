@@ -131,18 +131,18 @@
 				$("#to").focus();
 				return false;
 			}
-			//sendForm("form_data", "{:U('save')}");
-			var vars=$("#form_data").serialize();
-			sendAjax("{:U('save')}",vars,function(data){
-				if(data.status){
-					ui_alert("修改成功",function() {
-						location.href="{:U('index')}";
-						}
-						);
-				}else{
-					ui_error("修改失败");
-				}		
-			})
+			sendForm("form_data", "{:U('save')}");
+			// var vars=$("#form_data").serialize();
+			// sendAjax("{:U('save')}",vars,function(data){
+				// if(data.status){
+					// ui_alert("修改成功",function() {
+						// location.href="{:U('index')}";
+						// }
+						// );
+				// }else{
+					// ui_error("修改失败");
+				// }		
+			// })
 		}
 
 

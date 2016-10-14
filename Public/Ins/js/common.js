@@ -5,6 +5,9 @@ function del_current_node() {
 function winprint() {
 	$("#sidebar").addClass("hidden");
 	$("#page-wrapper").addClass("print");
+	$style = $("#page-wrapper").attr('style');
+	$("#page-wrapper").css('min-height', '100px');
+
 	setTimeout(function() {
 		window.print();
 	}, 300);
@@ -12,6 +15,7 @@ function winprint() {
 	setTimeout(function() {
 		$("#page-wrapper").removeClass("print");
 		$("#sidebar").removeClass("hidden");
+		$("#page-wrapper").attr('style', $style);
 	}, 700);
 }
 
@@ -74,7 +78,8 @@ function ui_info(msg) {
 	}
 	toastr.options = {
 		"closeButton" : true,
-		"positionClass" : position
+		"positionClass" : position,
+		"timeOut" : ws_push_time * 1000
 	};
 	toastr.info(msg);
 }
@@ -88,7 +93,8 @@ function ui_error(msg) {
 	}
 	toastr.options = {
 		"closeButton" : true,
-		"positionClass" : position
+		"positionClass" : position,
+		"timeOut" : ws_push_time * 1000
 	};
 	toastr.error('', msg);
 }
@@ -109,7 +115,8 @@ function push_info($msg) {
 	}
 	toastr.options = {
 		"closeButton" : true,
-		"positionClass" : position
+		"positionClass" : position,
+		"timeOut" : ws_push_time * 1000
 	};
 	toastr.info($content, $title);
 }
@@ -334,14 +341,16 @@ var Inputbox = {
 /*赋值*/
 
 function set_val(name, val) {
-
+	if(val==null){
+		return ;
+	}
 	if ($("#" + name + " option").length > 0) {
 		if (val == "") {
-			$("#" + name + " option:first")[0].selected=true;
-		} else {
-			if($("#" + name + " [value=" + val + "]")!=undefined){
-				$("#" + name + " [value=" + val + "]")[0].selected=true;	
-			}			
+			$("#" + name + " option:first")[0].selected = true;
+		} else {			
+			if ($("#" + name + " [value=" + val + "]") != undefined) {
+				$("#" + name + " [value=" + val + "]")[0].selected = true;
+			}
 		}
 		return;
 	}
@@ -383,8 +392,8 @@ function show_udf_val($udf_data) {
 }
 
 /*设置要返回的URL*/
-function set_return_url(level,url) {
-	if (level != undefined) {		
+function set_return_url(level, url) {
+	if (level != undefined) {
 		if (url == undefined) {
 			set_cookie("return_url_" + level, document.location);
 		} else {
@@ -497,7 +506,7 @@ function check_form(form_id) {
 	if (last_submit == undefined) {
 		$('#' + form_id).data('last_submit', new Date().getTime());
 	} else {
-		if (current_submit - last_submit > 3000) {
+		if (current_submit - last_submit > 5000) {
 			$('#' + form_id).data('last_submit', new Date().getTime());
 		} else {
 			return false;
@@ -508,7 +517,7 @@ function check_form(form_id) {
 	}
 
 	var check_flag = true;
-	$("#" + form_id + " :input").each(function(i) {
+	$("#" + form_id + " :input").each(function(i){
 		if ($(this).attr("check")) {
 			if (!validate($(this).val(), $(this).attr("check"))) {
 				ui_error($(this).attr("msg"));
@@ -518,6 +527,7 @@ function check_form(form_id) {
 			}
 		}
 	});
+ 
 	return check_flag;
 }
 
@@ -716,10 +726,10 @@ var udf_field = {
 				}
 				if (udf_field.data !== undefined) {
 					$field_id = $obj.attr("id").replace("udf_field_", "");
-					$udf_data=udf_field.data[$field_id];
-					if($udf_data.indexOf('|')){
-						$udf_data=$udf_data.split('|');
-						for(s in $udf_data){
+					$udf_data = udf_field.data[$field_id];
+					if ($udf_data.indexOf('|')) {
+						$udf_data = $udf_data.split('|');
+						for (s in $udf_data) {
 							$("[name='udf_field_id]")
 						}
 					}
@@ -733,12 +743,12 @@ var udf_field = {
 				fill_option($sub, $current);
 			});
 
-			json = eval("("+$data+")");//转换为json对象 
+			json = eval("(" + $data + ")");
+			//转换为json对象
 			fill_option($main, $pid);
 		});
 	},
 };
-
 
 var udf_field2 = {
 	init : function(udf_data) {

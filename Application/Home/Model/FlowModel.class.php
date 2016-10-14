@@ -315,8 +315,10 @@ class  FlowModel extends CommonModel {
 		}
 		$confirm_list = array_filter(explode("|", $confirm));
 		$last_confirm_emp_no = end($confirm_list);
-		if (strpos($last_confirm_emp_no, get_emp_no()) !== false) {
-			return true;
+		
+		$last_confirm_list=array_filter((explode(",", $last_confirm_emp_no )));
+		if (in_array_case(get_emp_no(),$last_confirm_list )) {
+			return false;
 		}
 		return false;
 	}
@@ -329,8 +331,9 @@ class  FlowModel extends CommonModel {
 
 		$consult_list = array_filter(explode("|", $consult));
 		$last_consult_emp_no = end($consult_list);
-			
-		if (strpos($last_consult_emp_no, get_emp_no()) !== false) {
+		
+		$last_confirm_list=array_filter((explode(",", $last_confirm_emp_no )));
+		if (in_array_case(get_emp_no(),$last_confirm_list )) {
 			return true;
 		}
 		return false;
