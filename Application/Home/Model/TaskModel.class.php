@@ -63,7 +63,7 @@ class TaskModel extends CommonModel {
 			}
 			
 			$push_data['type'] = '任务';
-			$push_data['action'] = '需要执行';
+			$push_data['action'] = '需要学习';
 			$push_data['title'] = "来自：" . get_dept_name()."-".get_user_name();
 			$push_data['content'] = "标题：" . $data['name'];
 			$push_data['url'] = U('Task/read',"id={$data['id']}&return_url=Task/index");
@@ -108,7 +108,7 @@ class TaskModel extends CommonModel {
 			}
 			
 			$push_data['type'] = '任务';
-			$push_data['action'] = '需要执行';
+			$push_data['action'] = '需要学习';
 			$push_data['title'] = "来自：" . get_dept_name()."-".get_user_name();
 			$push_data['content'] = "标题：" . $data['name'];
 			$push_data['url'] = U('Task/read',"id={$data['id']}&return_url=Task/index");

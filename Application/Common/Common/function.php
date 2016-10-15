@@ -1527,22 +1527,22 @@ function get_emp_pic($id) {
 
 function task_status($status) {
 	if ($status == 0) {
-		return "待处理";
+		return "待学习";
 	}
 	if ($status == 10) {
-		return "进行中";
+		return "学习中";
 	}
 	if ($status == 20) {
-		return "已完成";
+		return "已学习";
 	}
 	if ($status == 21) {
-		return "已转交";
+		return "已学习";
 	}
 	if ($status == 22) {
 		return "已拒绝";
 	}
 	if ($status == 30) {
-		return "已完成";
+		return "已学习";
 	}
 }
 
@@ -1569,13 +1569,13 @@ function task_log_status($status) {
 
 function finish_rate($rate) {
 	if ($rate == 0) {
-		return "任务未开始执行";
+		return "未开始学习";
 	}
 	if ($rate > 0 and $rate < 100) {
-		return "任务已完成$rate%";
+		return "已学习$rate%";
 	}
 	if ($rate == 100) {
-		return "任务已完成";
+		return "学习已完成";
 	}
 }
 

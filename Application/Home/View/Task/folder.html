@@ -53,7 +53,7 @@
 						<a href="{:U('folder','fid=all')}">所有</a>
 					</li>
 					<li <eq name="fid" value="no_finish">class="active"</eq>>
-						<a href="{:U('folder','fid=no_finish')}">我未完成
+						<a href="{:U('folder','fid=no_finish')}">我未学习
 						<notempty name="no_finish_task_count">
 							<span class="badge badge-pink">{$no_finish_task_count}</span>
 						</notempty></a>
@@ -65,7 +65,7 @@
 						</notempty></a>
 					</li>
 					<li <eq name="fid" value="no_assign">class="active"</eq>>
-						<a href="{:U('folder','fid=no_assign')}" >不知让谁处理
+						<a href="{:U('folder','fid=no_assign')}" >未指定学习对象
 						<notempty name="no_assign_task_count">
 							<span class="badge badge-pink">{$no_assign_task_count}</span>
 						</notempty></a>
@@ -83,7 +83,7 @@
 			</div>
 			<if condition="$auth['write']">
 				<div class="pull-right">
-					<a class="btn btn-sm btn-primary" onclick="add()">发布任务</a>
+					<a class="btn btn-sm btn-primary" onclick="add()">发布学习任务</a>
 				</div>
 			</if>
 		</div>

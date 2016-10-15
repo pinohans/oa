@@ -57,11 +57,11 @@ class TaskController extends HomeController {
 
 		switch ($fid) {
 			case 'all' :
-				$this -> assign("folder_name", '所有任务');
+				$this -> assign("folder_name", '所有学习任务');
 				break;
 				
 			case 'dept' :
-				$this -> assign("folder_name", '我们部门的任务');
+				$this -> assign("folder_name", '部门学习任务');
 				$auth = $this -> config['auth'];
 
 				if ($auth['admin']) {
@@ -80,7 +80,7 @@ class TaskController extends HomeController {
 				break;
 
 			case 'no_assign' :
-				$this -> assign("folder_name", '不知道由谁处理的任务');
+				$this -> assign("folder_name", '未指定学习对象的任务');
 
 				$prefix = C('DB_PREFIX');
 
@@ -101,7 +101,7 @@ class TaskController extends HomeController {
 				break;
 
 			case 'no_finish' :
-				$this -> assign("folder_name", '我未完成');
+				$this -> assign("folder_name", '我未学习');
 
 				$where_log['status'] = array('lt', 20);
 				$where_log['executor'] = get_user_id();
@@ -117,7 +117,7 @@ class TaskController extends HomeController {
 				break;
 
 			case 'finished' :
-				$this -> assign("folder_name", '我已完成');
+				$this -> assign("folder_name", '我已学习');
 
 				$where_log['executor'] = get_user_id();
 				$where_log['type'] = array('eq', 1);
@@ -132,12 +132,12 @@ class TaskController extends HomeController {
 				break;
 
 			case 'my_task' :
-				$this -> assign("folder_name", '我发布的任务');
+				$this -> assign("folder_name", '我发布的学习任务');
 				$where['user_id'] = get_user_id();
 				break;
 
 			case 'my_assign' :
-				$this -> assign("folder_name", '我指派的任务');
+				$this -> assign("folder_name", '我指派的学习任务');
 
 				$where_log['assigner'] = get_user_id();
 				$task_list = M("TaskLog") -> where($where_log) -> getField('task_id', TRUE);
@@ -319,9 +319,9 @@ class TaskController extends HomeController {
 
 				$transactor_name = get_user_name();
 
-				$push_data['type'] = '任务';
+				$push_data['type'] = '学习任务';
 				$push_data['action'] = '已完成';
-				$push_data['title'] = "{$transactor_name}已完成您发起的[{$task['name']}]任务";
+				$push_data['title'] = "{$transactor_name}已完成您发起的[{$task['name']}]学习任务";
 				$push_data['content'] = "如有问题，请与[{$transactor_name}]进行沟通。";
 				$push_data['url'] = U('Task/read',"id={$task['id']}&return_url&Task/index");
 

@@ -8,7 +8,7 @@
 			</div>
 			<div class="pull-right">
 				<eq name="no_assign" value="1">
-					<a onclick="let_me_do({$task_id})" class="btn btn-sm btn-primary">我来处理</a>
+					<a onclick="let_me_do({$task_id})" class="btn btn-sm btn-primary">我来学习</a>
 				</eq>
 			</div>
 		</div>
@@ -43,7 +43,7 @@
 			</div>
 		</div>
 		<div class="form-group col-sm-6">
-			<label class="col-sm-4 control-label" for="name">谁来执行：</label>
+			<label class="col-sm-4 control-label" for="name">学习对象：</label>
 			<div class="col-sm-8">
 				<p class="form-control-static">
 					{$vo.executor|show_contact}
@@ -60,7 +60,7 @@
 		</div>
 
 		<div class="form-group">
-			<label class="col-sm-2 control-label" for="content">任务说明：</label>
+			<label class="col-sm-2 control-label" for="content">学习任务说明：</label>
 			<div class="col-xs-10">
 				<div class="task_content form-control-static">
 					{$vo.content}
@@ -76,17 +76,18 @@
 		</div>
 	</form>
 
-	{:W('PageHeader',array('name'=>'任务执行情况','search'=>'N'))}
+	{:W('PageHeader',array('name'=>'任务学习情况','search'=>'N'))}
 	<div class="ul_table border-bottom">
 		<ul>
 			<li class="thead">
 				<span class="col-9 text-center">指派给</span>
 				<span class="col-6 text-center">状态</span>
-				<span class="col-6 text-center">执行人</span>
+				<span class="col-6 text-center">学习对象</span>
 				<span class="col-13 text-center">计划完成时间</span>
-				<span class="col-13 text-center">已完成情况</span>
+				<span class="col-13 text-center">学习进度</span>
+				<span class="col-13 text-center">完成时间</span>
 				<span class="col-13 pull-right">附件</span>
-				<span class="auto">执行内容</span>
+				<span class="auto">学习心得</span>
 				
 			</li>
 			<volist name="task_log" id="item">
@@ -95,10 +96,8 @@
 					<span class="col-6 text-center">&nbsp;{$item.status|task_status}</span>
 					<span class="col-6 text-center">&nbsp;{$item.transactor_name}&nbsp;</span>
 					<span class="col-13 text-center">&nbsp;{$item.plan_time|substr=0,16}&nbsp;</span>
-					<span class="col-13 text-center"> &nbsp;
-						<eq name='item.status' value='10'>
-							{$item.finish_rate|finish_rate}
-						</eq>
+					<span class="col-13 text-center"> {$item.finish_rate|finish_rate}</span>
+					<span class="col-13 text-center"> 
 						<egt name='item.status' value='20'>
 							{$item.finish_time|substr=0,16}
 						</egt>&nbsp;</span>
@@ -106,7 +105,7 @@
 							{:W('FileUpload/link',array($item['add_file']))}
 						</span>
 						
-					<span class="auto">
+					<span class="auto" style="max-width:800px">
 						<div style="overflow:hidden">
 							{$item.feed_back}
 						</div> </span>
@@ -117,11 +116,11 @@
 	<eq name="is_working" value="1">
 		<div class="ibox task_todo">
 			<div class="ibox-title">
-				<h5 class="smaller">我的执行情况</h5>
+				<h5 class="smaller">我的学习情况</h5>
 				<div class="ibox-tools no-border">
 					<ul class="nav nav-tabs" id="myTab">
 						<li class="active">
-							<a href="#working" data-toggle="tab">执行情况</a>
+							<a href="#working" data-toggle="tab">学习情况</a>
 						</li>
 						<li>
 							<a href="#forword" data-toggle="tab">转交任务</a>
@@ -159,7 +158,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label" >执行内容：</label>
+								<label class="col-sm-2 control-label" >学习心得：</label>
 								<div class="col-sm-10">
 									<p>
 									<textarea id="feed_back" name="feed_back" class="col-xs-12 simple " style="height:120px">{$task_working.feed_back}</textarea>
@@ -199,7 +198,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label" >执行内容：</label>
+								<label class="col-sm-2 control-label" >学习内容：</label>
 								<div class="col-sm-10">
 									<textarea id="feed_back" name="feed_back" class="col-xs-12 simple" style="height:120px" check="require" msg="请输入执行内容">{$task_working.feed_back}</textarea>
 									<p></p>
@@ -212,7 +211,7 @@
 							<input type="hidden" name="status" value="22">
 							<input type="hidden" name="id" value="{$task_working.id}">
 							<div class="form-group">
-								<label class="col-sm-2 control-label" >执行内容：</label>
+								<label class="col-sm-2 control-label" >学习内容：</label>
 								<div class="col-sm-10">
 									<textarea id="feed_back" name="feed_back" class="col-xs-12 simple" style="height:120px" >{$task_working.feed_back}</textarea>
 									<p></p>
