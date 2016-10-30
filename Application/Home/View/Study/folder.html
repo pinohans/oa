@@ -53,19 +53,19 @@
 						<a href="{:U('folder','fid=all')}">所有</a>
 					</li>
 					<li <eq name="fid" value="no_finish">class="active"</eq>>
-						<a href="{:U('folder','fid=no_finish')}">我未完成
+						<a href="{:U('folder','fid=no_finish')}">我未学习
 						<notempty name="no_finish_task_count">
 							<span class="badge badge-pink">{$no_finish_task_count}</span>
 						</notempty></a>
 					</li>
 					<li <eq name="fid" value="dept">class="active"</eq>>
-						<a href="{:U('folder','fid=dept')}">部门项目
+						<a href="{:U('folder','fid=dept')}">部门任务
 						<notempty name="dept_task_count">
 							<span class="badge badge-pink">{$dept_task_count}</span>
 						</notempty></a>
 					</li>
 					<li <eq name="fid" value="no_assign">class="active"</eq>>
-						<a href="{:U('folder','fid=no_assign')}" >不知让谁处理
+						<a href="{:U('folder','fid=no_assign')}" >未指定学习对象
 						<notempty name="no_assign_task_count">
 							<span class="badge badge-pink">{$no_assign_task_count}</span>
 						</notempty></a>
@@ -83,7 +83,7 @@
 			</div>
 			<if condition="$auth['write']">
 				<div class="pull-right">
-					<a class="btn btn-sm btn-primary" onclick="add()">发布项目</a>
+					<a class="btn btn-sm btn-primary" onclick="add()">发布学习任务</a>
 				</div>
 			</if>
 		</div>
@@ -121,7 +121,7 @@
 							<span class="col-20 autocut">&nbsp;{$vo.executor|show_contact}</span>
 							<span class="col-12">{$vo.create_time|to_date='Y-m-d H:i'}&nbsp;</span>
 							<span class="col-12">{$vo.expected_time|substr=0,16}&nbsp;</span>
-							<span class="col-6">{$vo.status|task_status}&nbsp;</span>
+							<span class="col-6">{$vo.status|study_status}&nbsp;</span>
 							<span class="col-6 text-center">
 								<if condition="($vo.status lt 30) and ($vo.user_id eq $user_id)">
 									<a href="{:U('edit','id='.$vo['id'])}">修改</a>&nbsp;<a href="{:U('del','id='.$vo['id'])}">删除</a>

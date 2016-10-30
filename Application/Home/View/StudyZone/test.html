@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>小微OA-审批</title>
+		<link href="/Public/Ins/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/Public/Ins/font-awesome/css/font-awesome.css" rel="stylesheet">
+		<link href="/Public/Ins/css/animate.css" rel="stylesheet">
+		<link href="/Public/Ins/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+		<link href="/Public/Ins/css/plugins/gritter/jquery.gritter.css" />
+		<link rel="stylesheet" href="/Public/Ins/css/plugins/date-time/bootstrap-datetimepicker.css" />
+
+
+		<link href="/Public/Ins/css/plugins/fullcalendar/fullcalendar.css" rel="stylesheet" />
+		<link href="/Public/Ins/css/style.css" rel="stylesheet">
+		<link href="/Public/Ins/css/xiaowei.css" rel="stylesheet">
+		
+	</head>
+	<script type="text/javascript">
+	var upload_url = "/index.php?m=&c=Flow&a=upload";
+	var del_url = "/index.php?m=&c=Flow&a=del_file";
+	var app_path = "";
+	var cookie_prefix = "";
+	var link_select = "/index.php?m=&c=Popup&a=link_select";
+	var _hmt = _hmt || [];
+	(function() {
+		var hm = document.createElement("script");
+		hm.src = "//hm.baidu.com/hm.js?2a935166b0c9b73fef3c8bae58b95fe4";
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(hm, s);
+	})(); 
+</script>
+	<body class="Flow">
+		
+		
+	<div class="pull-right">
+	<a onclick="save(10);"  class="btn btn-sm btn-primary">存草稿</a>
+	<a onclick="save(20);"  id="post" class="btn btn-sm btn-primary">提交</a>
+	</div>
+	<form method='post' id="form_data" name="form_data" enctype="multipart/form-data" class="well form-horizontal">
+		<input type="hidden" id="ajax" name="ajax" value="1">
+		<input type="hidden" id="type" name="type" value="33">
+		<input type="hidden" id="opmode" name="opmode" value="add">
+		<input type="hidden" id="confirm" name="confirm" value="">
+		<input type="hidden" id="confirm_name" name="confirm_name" value="">
+		<input type="hidden" id="consult" name="consult" value="">
+		<input type="hidden" id="consult_name" name="consult_name" value="">
+		<input type="hidden" id="refer" name="refer" value="">
+		<input type="hidden" id="refer_name" name="refer_name" value="">
+		<input type="hidden" id="step" name="step" value="">
+		<div class="form-group">
+			<div class="col-xs-12">
+				<textarea class="editor" id="content" name="content" style="width:100%;height:300px;"><p><br /></p>
+				</textarea>
+			</div>
+		</div>		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" >附件：</label>
+			<div class="col-sm-10">
+				<div class="uploader" id="uploader_add_file" add_file_id="add_file">
+				<input id="add_file_add_file" class="add_file" type="hidden" name="add_file" >
+				<a id="btn_add_file" href="javascript:;" class="btn btn-sm btn-primary">添加附件</a>
+				<ul class="file_list" new_upload="" ></ul>
+			</div>			
+		</div>
+		</div>
+	</form>
+		<iframe src="/index.php?m=&c=push&a=client" class="push" id="push"></iframe>
+		<script src="/Public/Ins/js/jquery-2.1.1.js"></script>
+		<script src="/Public/Ins/js/bootstrap.min.js"></script>
+		<script src="/Public/Ins/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+		<script src="/Public/Ins/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+		<script src="/Public/Ins/js/bootstrap-suggest.min.js"></script>
+
+		<!-- Custom and plugin javascript -->
+		<script src="/Public/Ins/js/inspinia.js"></script>
+		<script src="/Public/Ins/js/common.js"></script>
+		<script src="/Public/Ins/js/plugins/pace/pace.min.js"></script>
+		<script src="/Public/Ins/js/plugins/date-time/moment-with-locales.js"></script>
+		<script src="/Public/Ins/js/plugins/date-time/bootstrap-datetimepicker.js"></script>
+		<script type="text/javascript" src="/Public/Ins/js/plugins/plupload/plupload.full.min.js"></script>
+		<script type="text/javascript" src="/Public/Ins/js/plugins/plupload/plupload.setting.js"></script>
+		<script type="text/javascript" src="/Public/Ins/js/plugins/tinymce/tinymce.min.js"></script>
+		<script type="text/javascript" src="/Public/Ins/js/plugins/tinymce/tinymce.setting.js"></script>
+
+
+		<script src="/Public/Ins/js/plugins/toastr/toastr.min.js"></script>
+		<script src="/Public/Ins/js/plugins/gritter/jquery.gritter.min.js"></script>
+		<script src="/Public/Ins/js/plugins/bootbox/bootbox.min.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.input-date').datetimepicker({
+			format : 'YYYY-MM-DD',
+			locale : 'zh-cn',
+			ignoreReadonly : true,
+			widgetPositioning : {
+				horizontal : 'auto',
+				vertical : 'bottom'
+			},
+		});
+
+		$(".input-daterange input").datetimepicker({
+			format : "YYYY-MM-DD",
+			locale : 'zh-cn',
+			showTodayButton : true,
+			showClose : true,
+			ignoreReadonly : true,
+			widgetPositioning : {
+				horizontal : 'auto',
+				vertical : 'bottom'
+			},
+		});
+
+		$("#start_date").on("dp.change", function(e) {
+			if ($("#end_date").length > 0) {
+				$('#end_date').data("DateTimePicker").minDate(e.date);
+			}
+		});
+
+		$("#end_date").on("dp.change", function(e) {
+			if ($("#start_date").length > 0) {
+				$('#start_date').data("DateTimePicker").maxDate(e.date);
+			}
+		});
+
+		$(".input-date-time").datetimepicker({
+			format : 'YYYY-MM-DD HH:mm',
+			locale : 'zh-cn',
+			sideBySide : true,
+			showTodayButton : true,
+			showClose : true,
+			ignoreReadonly : true,
+			widgetPositioning : {
+				horizontal : 'auto',
+				vertical : 'bottom'
+			},
+		});	}); 
+</script>
+		
+	<script type="text/javascript">
+		$(document).ready(function() {
+			udf_field.init();
+
+					});
+		
+		function save(step) {
+			$("#confirm").val("");
+			$("#confirm_wrap  span").each(function() {
+				$("#confirm").val($("#confirm").val() + $(this).attr("data") + '|');
+			});
+
+			$("#confirm_name").val($("#confirm_wrap").html());
+
+			$("#consult").val("");
+			$("#consult_wrap  span").each(function() {
+				$("#consult").val($("#consult").val() + $(this).attr("data") + '|');
+			});
+			$("#consult_name").val($("#consult_wrap").html());
+
+			if ($("#confirm").val().length < 2) {
+				ui_error('请选择审批流程');
+				return false;
+			}
+			$("#step").val(step);
+			sendForm("form_data", "/index.php?m=&c=Flow&a=save", "/index.php?m=&c=Flow&a=index");
+            var t=3;
+			var int=setInterval(function(){
+				t--;
+				if(t==0){
+					$("#post").html("提交")
+					$("#post").attr("onclick","save(20)");
+					 clearInterval(int);
+	
+				}else{
+				  $("#post").attr("onclick","javascript:alert('不能重复提交！')");
+				  $("#post").html("重新提交("+t+")")	
+				}
+			},1000)
+			
+		}
+
+		function popup_confirm() {
+			winopen("/index.php?m=&c=popup&a=confirm",560, 470);
+		}
+
+	</script>
+
+
+	</body>
+</html>

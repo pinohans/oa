@@ -12,7 +12,7 @@
 namespace Home\Model;
 use Think\Model;
 
-class TaskModel extends CommonModel {
+class StudyModel extends CommonModel {
 	// 自动验证设置
 	protected $_validate = array( array('name', 'require', '文件名必须', 1), array('content', 'require', '内容必须'), );
 
@@ -59,14 +59,14 @@ class TaskModel extends CommonModel {
 				$log_data['type'] = $type;
 				$log_data['assigner'] = $data['user_id'];
 				$log_data['task_id'] = $data['id'];
-				M("TaskLog") -> add($log_data);
+				M("StudyLog") -> add($log_data);
 			}
 			
 			$push_data['type'] = '任务';
-			$push_data['action'] = '需要完成';
+			$push_data['action'] = '需要学习';
 			$push_data['title'] = "来自：" . get_dept_name()."-".get_user_name();
 			$push_data['content'] = "标题：" . $data['name'];
-			$push_data['url'] = U('Task/read',"id={$data['id']}&return_url=Task/index");
+			$push_data['url'] = U('Study/read',"id={$data['id']}&return_url=Study/index");
 			
 			send_push($push_data, $user_list);
 		}		
@@ -89,7 +89,7 @@ class TaskModel extends CommonModel {
 					$dept_user_list=M('User')->where($where)->getField('id',true);
 
 					foreach($dept_user_list as $val){
-						$auth=D("Role")->get_auth('Task',$val);
+						$auth=D("Role")->get_auth('Study',$val);
 						if($auth['admin']){
 							$user_list[]=$val;
 						}
@@ -104,14 +104,14 @@ class TaskModel extends CommonModel {
 				$log_data['type'] = $type;
 				$log_data['assigner'] = $data['user_id'];
 				$log_data['task_id'] = $data['id'];
-				M("TaskLog") -> add($log_data);
+				M("StudyLog") -> add($log_data);
 			}
 			
 			$push_data['type'] = '任务';
-			$push_data['action'] = '需要完成';
+			$push_data['action'] = '需要学习';
 			$push_data['title'] = "来自：" . get_dept_name()."-".get_user_name();
 			$push_data['content'] = "标题：" . $data['name'];
-			$push_data['url'] = U('Task/read',"id={$data['id']}&return_url=Task/index");
+			$push_data['url'] = U('Study/read',"id={$data['id']}&return_url=Study/index");
 			
 			send_push($push_data, $user_list);
 		}		
@@ -138,7 +138,7 @@ class TaskModel extends CommonModel {
 				$log_data['type'] = $type;
 				$log_data['assigner'] = get_user_id();
 				$log_data['task_id'] = $task_id;
-				M("TaskLog") -> add($log_data);
+				M("StudyLog") -> add($log_data);
 			}
 		}
 	}

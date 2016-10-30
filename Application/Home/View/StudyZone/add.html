@@ -1,0 +1,15 @@
+<extend name="base" />
+<block name="body">
+	<h1>upload</h1>
+	<form method="POST" enctype="multipart/form-data" action='{:U("StudyZone/upload_pic")}'>
+	上传图片：<input type="file" name="pic">
+	<input type="submit" name="pic_ok" value="上传"></br>
+	</form>
+	<form method="POST" action='{:U("StudyZone/upload_doc")}'>
+			title:<input type="text" name="title">
+			discribe:<input type="text" name="discribe">		
+			content:<textarea rows="30" cols="80" name="content"></textarea>
+			<input type="submit" name="article_ok" value="提交" >
+			<input type="submit" name="article_draft" value="存为草稿">
+	</form>
+</block>

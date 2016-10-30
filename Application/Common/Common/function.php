@@ -128,10 +128,74 @@ function badge_count_doing_work_order() {
 	return $work_order_list_doing_count;
 }
 
+
+function badge_count_study() {
+	return badge_count_no_finish_study() + badge_count_dept_study() + badge_count_no_assign_study();
+}
+
+function badge_count_no_finish_study() {
+	//等我接受的任务
+	$where = array();
+	$where_log['type'] = 1;
+	$where_log['status'] = array('lt', 20);
+	$where_log['executor'] = get_user_id();
+	$task_list = M("StudyLog") -> where($where_log) -> getField('task_id', true);
+	$task_todo_count = 0;
+	if (!empty($task_list)) {
+		$where['id'] = array('in', $task_list);
+		$where['is_del'] = array('eq', 0);
+		$task_todo_count = M("Study") -> where($where) -> count();
+	}
+	return $task_todo_count;
+}
+function badge_count_no_assign_study() {
+	//等我接受的任务
+	$prefix = C('DB_PREFIX');
+
+	$assign_list = M("Study") -> getField('id', true);
+
+	$sql = "select id from {$prefix}study study where status=0 and not exists (select * from {$prefix}study_log study_log where study.id=study_log.task_id)";
+	$task_list = M() -> query($sql);
+
+	if (empty($task_list)) {
+		return 0;
+	} else {
+		foreach ($task_list as $key => $val) {
+			$list[] = $val['id'];
+		}
+		$where['id'] = array('in', $list);
+		$where['is_del'] = array('eq', 0);
+		$task_no_assign_count = M("Study") -> where($where) -> count();
+		return $task_no_assign_count;
+	}
+}
+function badge_count_dept_study() {
+
+	//我部门任务
+	$where = array();
+	$auth = D("Role") -> get_auth("Study");
+	if ($auth['admin']) {
+		$where_log['type'] = 2;
+		$where_log['executor'] = get_dept_id();
+		$where_log['status'] = array('eq', '0');
+		$task_list = M("StudyLog") -> where($where_log) -> getField('task_id', TRUE);
+		if (!empty($task_list)) {
+			$where['id'] = array('in', $task_list);
+			$where['is_del'] = array('eq', 0);
+		} else {
+			return 0;
+		}
+	} else {
+		return 0;
+	}
+
+	$task_dept_count = M("Study") -> where($where) -> count();
+	return $task_dept_count;
+}
+
 function badge_count_task() {
 	return badge_count_no_finish_task() + badge_count_dept_task() + badge_count_no_assign_task();
 }
-
 function badge_count_no_finish_task() {
 	//等我接受的任务
 	$where = array();
@@ -1527,22 +1591,22 @@ function get_emp_pic($id) {
 
 function task_status($status) {
 	if ($status == 0) {
-		return "待学习";
+		return "未处理";
 	}
 	if ($status == 10) {
-		return "学习中";
+		return "进行中";
 	}
 	if ($status == 20) {
-		return "已学习";
+		return "已完成";
 	}
 	if ($status == 21) {
-		return "已学习";
+		return "已转交";
 	}
 	if ($status == 22) {
 		return "已拒绝";
 	}
 	if ($status == 30) {
-		return "已学习";
+		return "已完成";
 	}
 }
 
@@ -1567,7 +1631,61 @@ function task_log_status($status) {
 	}
 }
 
-function finish_rate($rate) {
+function task_finish_rate($rate) {
+	if ($rate == 0) {
+		return "未开始处理";
+	}
+	if ($rate > 0 and $rate < 100) {
+		return "已处理$rate%";
+	}
+	if ($rate == 100) {
+		return "已完成";
+	}
+}
+
+function study_status($status) {
+	if ($status == 0) {
+		return "待学习";
+	}
+	if ($status == 10) {
+		return "学习中";
+	}
+	if ($status == 20) {
+		return "已学习";
+	}
+	if ($status == 21) {
+		return "已学习";
+	}
+	if ($status == 22) {
+		return "已拒绝";
+	}
+	if ($status == 30) {
+		return "已学习";
+	}
+}
+
+function study_log_status($status) {
+	if ($status == 10) {
+		return "进行中";
+	}
+	if ($status == 1) {
+		return "已接受";
+	}
+	if ($status == 2) {
+		return "进行中";
+	}
+	if ($status == 3) {
+		return "已完成";
+	}
+	if ($status == 4) {
+		return "已转交";
+	}
+	if ($status == 5) {
+		return "不接受";
+	}
+}
+
+function study_finish_rate($rate) {
 	if ($rate == 0) {
 		return "未开始学习";
 	}

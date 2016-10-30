@@ -270,7 +270,7 @@ class FormController extends HomeController {
 	}
 
 	function folder_manage() {
-		$this -> _system_folder_manage('报表管理', true);
+		$this -> _system_folder_manage('项目管理', true);
 	}
 
 	function upload() {

@@ -1,15 +1,18 @@
 <extend name="Layout/ins_page" />
 <block name="content">
-	{:W('PageHeader/simple',array('name'=>'发布项目','search'=>'N'))}
-	<form method='post' id="form_data" name="form_data" enctype="multipart/form-data" class="well form-horizontal">
+	{:W('PageHeader/simple',array('name'=>'修改任务','search'=>'N'))}
+
+	<form method='post' id="form_data" name="form_data" enctype="multipart/form-data"   class="well form-horizontal">
+		<input type="hidden" id="id" name="id" value="{$vo.id}">
 		<input type="hidden" id="ajax" name="ajax" value="0">
-		<input type="hidden" id="executor" name="executor" value="">
-		<input type="hidden" id="opmode" name="opmode" value="add">
+		<input type="hidden" id="executor" name="executor" value="{$vo.executor}">
+		<input type="hidden" id="assign_user" name="assign_user" value="{$vo.assign_user}">
+		<input type="hidden" id="opmode" name="opmode" value="edit">
 
 		<div class="form-group">
 			<label class="col-sm-2 control-label" for="name">标题：</label>
 			<div class="col-sm-10">
-				<input class="form-control" type="text" id="name" name="name" value=""  check="require" msg="请输入标题">
+				<input class="form-control" type="text" id="name" name="name" value="{$vo.name}"  check="require" msg="请输入文件名">
 			</div>
 		</div>
 		<div class="form-group">
@@ -18,7 +21,7 @@
 				<div id="actor_wrap" class="inputbox">
 					<a class="pull-right btn btn-link text-center" onclick="popup_actor();"><i class="fa fa-user"></i> </a>
 					<div class="wrap" >
-						<span class="address_list"></span>
+						<span class="address_list">{$vo.executor|show_contact="edit"}</span>
 						<span class="text" >
 							<input class="letter" type="text"  >
 						</span>
@@ -30,22 +33,22 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-2 control-label" for="expected_time">期望完成时间：</label>
+			<label class="col-sm-2 control-label" for="plan_time">期望完成时间：</label>
 			<div class="col-sm-10">
-				<input class="form-control input-date-time" type="text" id="expected_time" name="expected_time" value="" readonly="readonly">
+				<input class="form-control input-date-time" type="text" id="expected_time" name="expected_time" value="{$vo.expected_time}"readonly="readonly" >
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-2 control-label" for="content">项目说明：</label>
-			<div class="col-sm-10">
-				<textarea class="editor" id="content" name="content" style="width:100%;height:300px;" check="require" msg="请输入内容"></textarea>
+			<label class="col-sm-2 control-label" for="content">任务说明：</label>
+			<div class="col-xs-10">
+				<textarea class="editor" id="content" name="content" style="width:100%;height:300px;" check="require" msg="请输入内容">{$vo.content}</textarea>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label class="col-sm-2 control-label" for="name">附件：</label>
 			<div class="col-sm-10">
-				{:W('FileUpload/add')}
+				{:W('FileUpload/edit',array('add_file'=>$vo['add_file'],'mode'=>'add'))}
 			</div>
 		</div>
 		<div class="form-group">
@@ -63,6 +66,7 @@
 			$("#actor_wrap span.address_list span").each(function() {
 				$("#executor").val($("#executor").val() + $(this).find("b").text() + '|' + $(this).attr("data") + ";");
 			});
+
 			$html = $("#executor").val();
 			var re = new RegExp("dept_", "g");
 			var arr = $html.match(re);
@@ -81,10 +85,12 @@
 			winopen("{:U('popup/task')}",560, 470);
 		}
 
+
 		$(document).ready(function() {
 			$(document).on("click", ".inputbox .address_list a.del", function() {
 				$(this).parent().parent().remove();
 			});
 		});
+
 	</script>
 </block>
