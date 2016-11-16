@@ -12,7 +12,7 @@
     <?php }?></h1>
   <p> 等待时间： <b id="wait"><?php echo($waitSecond); ?></b></p>
   <p><a class="btn btn-primary btn-lg" id="href" href="<?php echo($jumpUrl); ?>" role="button">如果你的浏览器没有自动跳转，请点击这里...</a></p>
-<p><a class="btn btn-primary btn-lg" id="href" href="http://www.smeoa.com/" role="button">问题反馈-官方主页</a></p>
+
 </div>
     </div>
 
