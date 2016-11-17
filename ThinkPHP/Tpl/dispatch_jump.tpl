@@ -11,7 +11,7 @@
     <p class="error"><span class="glyphicon glyphicon-remove" aria-hidden="true"><?php echo($error); ?></span></p>
     <?php }?></h1>
   <p> 等待时间： <b id="wait"><?php echo($waitSecond); ?></b></p>
-  <p><a class="btn btn-primary btn-lg" id="href" href="<?php echo($jumpUrl); ?>" role="button">如果你的浏览器没有自动跳转，请点击这里...</a></p>
+  <p><a class="btn btn-primary btn-lg" id="href" href="<?php echo($jumpUrl); ?>" role="button">如果浏览器没有自动跳转，请点击...</a></p>
 
 </div>
     </div>
