@@ -1,4 +1,5 @@
 /*----shade-------------------------------------------------*/
+html,body{overflow:hidden;overflow-y:auto;}
 .shade {
 	background-color: #000000;
 	filter: alpha(opacity=50);
