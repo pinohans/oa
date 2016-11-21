@@ -7,12 +7,9 @@
 				<ul class="nav nav-tabs">
 					<li id="tb1">
 						<a href="#tab-1" onclick="set_current_tab(1)" data-toggle="tab" aria-expanded="false">基本设置</a>
-					
-					<li id="tb4">
-						<a href="#tab-4" onclick="set_current_tab(4)"data-toggle="tab" aria-expanded="false">其他</a>
 					</li>
 					<li id="tb5">
-						<a href="#tab-5" onclick="set_current_tab(5)"data-toggle="tab" aria-expanded="false">推送设置</a>
+						<a href="#tab-5" onclick="set_current_tab(5)" data-toggle="tab" aria-expanded="false">推送设置</a>
 					</li>
 				</ul>
 			</div>
@@ -55,98 +52,6 @@
 					</form>
 				</div>
 
-
-			<div class="tab-pane" id="tab-4">
-				<input type="hidden" name="ajax" id="ajax" value="0">
-				<select name="system_config_list" id="system_config_list" class="hidden">
-					<option value="0">无</option>
-					{:fill_option($system_config_list)}
-				</select>
-				<form id="form_search" name="form_search" method="post">
-					<div class="operate panel panel-default">
-						<div class="panel-body">
-							<div class="pull-left">
-								<select name="eq_pid" id="eq_pid" class="form-control" onchange="submit_search();">
-									<option value=''>全部</option>
-									{:fill_option($group_list)}
-								</select>
-							</div>
-							<div class="pull-right">
-								<a onclick="add()" class="btn btn-sm btn-primary">新增</a>
-								<a onclick="save()"  class="btn btn-sm btn-primary">保存</a>
-								|
-								<a onclick="del()"  class="btn btn-sm btn-danger">删除</a>
-							</div>
-						</div>
-					</div>
-				</form>
-				<!-- 功能操作区域结束 -->
-				<!-- 列表显示区域  -->
-				<form id="form_data_system" name="form_data_system" method="post">
-					<input type="hidden" name="menu_id" id="menu_id" >
-					<div class="col-sm-4 sub_left_menu tree_menu a ">
-						<div class="well">
-							<php>
-								echo $menu
-							</php>
-						</div>
-					</div>
-				</form>
-				<div class="col-sm-8 sub_content">
-					<form id="form_data" name="form_data" method="post" class="common well form-horizontal clearfix">
-						<input type="hidden" name="id" id="id">
-						<input type="hidden" name="data_type" value="common">
-						<input type="hidden" name="opmode" id="opmode" value="">
-						<div class="form-group col-xs-12">
-							<label class="col-sm-4 control-label" for="code">编码*：</label>
-							<div class="col-sm-8">
-								<input class="form-control" type="text" id="code" name="code" check="require" msg="请输入编码">
-							</div>
-						</div>
-						<div class="form-group col-xs-12">
-							<label class="col-sm-4 control-label" for="name">名称*：</label>
-							<div class="col-sm-8">
-								<input class="form-control" type="text" id="name" name="name" check="require" msg="请输入名称">
-							</div>
-						</div>
-						<div class="form-group col-xs-12">
-							<label class="col-sm-4 control-label" for="val">数据*：</label>
-							<div class="col-sm-8">
-								<input class="form-control" type="text" id="val" name="val" check="require" msg="请输入数据">
-							</div>
-						</div>
-						<div class="form-group col-xs-12">
-							<label class="col-sm-4 control-label" for="pid_name">父级*：</label>
-							<div class="col-sm-8">
-								<div class="input-group">
-									<input name="pid_name" class="form-control" id="pid_name"  type="text" readonly="readonly" msg="请选择父级" check="require"/>
-									<input name="pid" id="pid" type="hidden" msg="请选择上级部门" check="require" />
-									<span class="input-group-btn">
-										<button class="btn btn-sm btn-primary" onclick="select_pid()" type="button">
-											选择
-										</button> </span>
-								</div>
-							</div>
-						</div>
-						<div class="form-group col-xs-12">
-							<label class="col-sm-4 control-label" for="sort">排序：</label>
-							<div class="col-sm-8">
-								<input class="form-control" type="text" id="sort" name="sort" >
-							</div>
-						</div>
-
-						<div class="form-group col-xs-12">
-							<label class="col-sm-4 control-label" for="is_del">状态*：</label>
-							<div class="col-sm-8">
-								<select   name="is_del" id="is_del1" class="form-control">
-									<option  value="0">启用</option>
-									<option value="1">禁用</option>
-								</select>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
 
 			<div class="tab-pane" id="tab-5">
 				<form id="form_system_push" name="form_system_push" method="post">
