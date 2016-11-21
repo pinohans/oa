@@ -11,7 +11,7 @@ class NewsController extends Controller {
 	public function read()
 	{
 		$id=$_GET['id'];
-		$data=M('info as a,think_system_folder as b')->where('a.id = %d and a.folder = b.id',$id)->field('a.name,a.create_time,a.update_time,a.user_name,b.name as type')->find();
+		$data=M('info as a,think_system_folder as b')->where('a.id = %d and a.folder = b.id',$id)->field('a.name,a.create_time,a.update_time,a.user_name,a.content,b.name as type')->find();
 		echo json_encode($data);
 	}
 }
