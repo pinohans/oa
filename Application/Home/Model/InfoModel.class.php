@@ -32,12 +32,18 @@ class  InfoModel extends CommonModel {
 		$this -> _save_scope($id, $scope_user_id);
 	}
 
-	function _after_update($data, $options) {
+	function _before_update(&$data, $options) {
 		$is_sign = I('is_sign');
 		if (empty($is_sign)) {
 			$data['is_sign'] = 0;
 		}
+		$is_public = I('is_public');
+		if (empty($is_public)) {
+			$data['is_public'] = 0;
+		}
+	}
 
+	function _after_update($data, $options) {
 		$id = $data['id'];
 		$scope_user_id = $data['scope_user_id'];
 		$this -> _del_scope($id);
