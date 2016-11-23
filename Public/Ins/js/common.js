@@ -106,7 +106,21 @@ function push_info($msg) {
 	} else {
 		$title = '<h3>[' + $msg.type + ']</h3>';
 	}
-	$content = '<b>' + $msg.title + '</b><br>' + $msg.content;
+	var strlen = 0;
+	var s = ""; 
+	for (var i = 0; i < $msg.content.length; i++) { 
+		if ($msg.content.charCodeAt(i) > 128) { 
+			strlen += 2; 
+		} else { 
+			strlen++; 
+		} 
+		s += $msg.content.charAt(i); 
+		if (strlen >= 140) { 
+			s+="..."; 
+			break; 
+		} 
+	}
+	$content = '<b>' + $msg.title + '</b><br>' + s;
 
 	if (is_mobile()) {
 		position = "toast-top-full-width";
