@@ -221,46 +221,60 @@ class PublicController extends Controller {
 		}
 	}
 
-	public function register() {
+	public function sign_up() {
+		$this -> assign("is_verify_code", get_system_config("login_verify_code"));
 		$this -> display();
 	}
 
 	// 登录检测
-	public function check_register() {
+	public function check_sign_up() {
 		$is_verify_code = get_system_config("login_verify_code");
-		if (!empty($is_verify_code)) {
-			if (session('verify') != md5($_POST['verify'])) {
+		if (!empty($is_verify_code) && !$this -> check_verify($_POST['verify'], 1)) {
 				$this -> error('验证码错误！');
-			}
-		}
-
-		if (empty($_POST['emp_no'])) {
+		} elseif (empty($_POST['emp_no'])) {
 			$this -> error('帐号必须！');
+		} elseif (empty($_POST['nickname'])) {
+			$this -> error('昵称必须！');
 		} elseif (empty($_POST['password'])) {
 			$this -> error('密码必须！');
+		} elseif (empty($_POST['check_num'])) {
+			$this -> error('邀请码必须！');
 		} elseif ($_POST['password'] !== $_POST['check_password']) {
-			$this -> error('密码不一致');
-		}
-
-		$map = array();
-		// 支持使用绑定帐号登录
-		$map['emp_no'] = $_POST['emp_no'];
-		$count = M("User") -> where($map) -> count();
-
-		if ($count) {
-			$this -> error('该账户已注册');
+			$this -> error('密码不一致！');
 		} else {
-			$model = D("User");
-			if (false === $model -> create()) {
-				$this -> error($model -> getError());
-			}
-			$list = $model -> add();
-			if ($list !== false) {//保存成功
-				$this -> assign('jumpUrl', get_return_url());
-				$this -> success('注册成功!');
+			$map = array();
+			// 支持使用绑定帐号登录
+			$map['check_num'] = $_POST['check_num'];
+			$count = M("check_num") -> where($map) -> count();
+			if (!$count) {
+				$this -> error('邀请码错误！');
 			} else {
-				$this -> error('注册失败!');
-				//失败提示
+				$map = array();
+				// 支持使用绑定帐号登录
+				$map['emp_no'] = $_POST['emp_no'];
+				$count = M("User") -> where($map) -> count();
+
+				if ($count) {
+					$this -> error('该账户已注册');
+				} else {
+					$model = D("User");
+					if (false === $model -> create()) {
+						$this -> error($model -> getError());
+					} else {
+						$list = $model -> add();
+						if ($list !== false) {//保存成功
+							$map = array();
+							// 支持使用绑定帐号登录
+							$map['check_num'] = $_POST['check_num'];
+							M("check_num") -> where($map) -> delete();
+							$this -> assign('jumpUrl', get_return_url());
+							$this -> success('注册成功!');
+						} else {
+							$this -> error('注册失败!');
+							//失败提示
+						}
+					}
+				}
 			}
 		}
 	}
