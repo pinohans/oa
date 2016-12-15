@@ -322,7 +322,7 @@ class  FlowModel extends CommonModel {
 		$consult_list = array_filter(explode("|", $consult));
 		$last_consult_emp_no = end($consult_list);
 		
-		if (strpos($last_confirm_emp_no, get_emp_no()) !== false) {
+		if (strpos($last_consult_emp_no, get_emp_no()) !== false) {
 			return true;
 		}
 		return false;
