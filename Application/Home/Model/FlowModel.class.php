@@ -1,13 +1,4 @@
 <?php
-/*---------------------------------------------------------------------------
- 小微OA系统 - 让工作更轻松快乐
-
- Copyright (c) 2013 http://www.smeoa.com All rights reserved.
-
- Author:  jinzhu.yin<smeoa@qq.com>
-
- Support: https://git.oschina.net/smeoa/xiaowei
- -------------------------------------------------------------------------*/
 
 namespace Home\Model;
 use Think\Model;
@@ -316,9 +307,8 @@ class  FlowModel extends CommonModel {
 		$confirm_list = array_filter(explode("|", $confirm));
 		$last_confirm_emp_no = end($confirm_list);
 		
-		$last_confirm_list=array_filter((explode(",", $last_confirm_emp_no )));
-		if (in_array_case(get_emp_no(),$last_confirm_list )) {
-			return false;
+		if (strpos($last_confirm_emp_no, get_emp_no()) !== false) {
+			return true;
 		}
 		return false;
 	}
@@ -332,8 +322,7 @@ class  FlowModel extends CommonModel {
 		$consult_list = array_filter(explode("|", $consult));
 		$last_consult_emp_no = end($consult_list);
 		
-		$last_confirm_list=array_filter((explode(",", $last_confirm_emp_no )));
-		if (in_array_case(get_emp_no(),$last_confirm_list )) {
+		if (strpos($last_confirm_emp_no, get_emp_no()) !== false) {
 			return true;
 		}
 		return false;
