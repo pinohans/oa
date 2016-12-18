@@ -4,40 +4,18 @@
 		<div class="col-sm-6 ui-sortable" id="t1">
 			<div class="ibox" sort="11">
 				<div class="ibox-title">
-					<h5>邮件</h5>
-					<div class="ibox-tools">
-						<ul class="nav nav-tabs" id="myTab">
-							<li class="active">
-								<a data-toggle="tab" href="#mail-new">最新</a>
-							</li>
-							<li>
-								<a data-toggle="tab" href="#mail-unread">未读</a>
-							</li>
-						</ul>
-					</div>
+					<h5>公文</h5>
 				</div>
 				<div class="ibox-content">
-					<div class="tab-content">
-						<div id="mail-new" class="tab-pane in active ul_table">
-							<ul>
-								<volist name="new_mail_list" id="vo">
-									<li>
-										<span class="pull-right hidden-xs">{$vo.create_time|to_date='Y-m-d'}</span>
-										<span  class="auto autocut"> <a href="{:U('mail/read','id='.$vo['id'])}&return_url=Mail/folder?fid=inbox" >{$vo.name|default="无标题"}</a> </span>
-									</li>
-								</volist>
-							</ul>
-						</div>
-						<div id="mail-unread" class="tab-pane ul_table">
-							<ul>
-								<volist name="unread_mail_list" id="vo">
-									<li>
-										<span class="pull-right hidden-xs">{$vo.create_time|to_date='Y-m-d '}</span>
-										<span  class="auto autocut"> <a href="{:U('mail/read','id='.$vo['id'])}&return_url=Mail/folder?fid=inbox" node="85" return_url="{:U('mail/folder/','fid=inbox')}" onclick="click_home_list(this)">{$vo.name|default="无标题"}</a> </span>
-									</li>
-								</volist>
-							</ul>
-						</div>
+					<div class="ul_table widget-main">
+						<ul>
+							<volist name="office_list" id="vo">
+								<li>
+									<span class="pull-right hidden-xs">{$vo.create_time|to_date='Y-m-d '}</span>
+									<span class="auto autocut"><a href="{:U('info/read','id='.$vo['id'])}&return_url=Info/index" >【{$vo.folder_name}】{$vo.name}</a> </span>
+								</li>
+							</volist>
+						</ul>
 					</div>
 				</div>
 			</div>

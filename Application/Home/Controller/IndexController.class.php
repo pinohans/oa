@@ -17,7 +17,7 @@ class IndexController extends HomeController {
 		$config = D("UserConfig") -> get_config();
 		$this -> assign("home_sort", $config['home_sort']);
 
-		$this -> _mail_list();
+		$this -> _office_list();
 		$this -> _flow_list();
 		$this -> _schedule_list();
 		$this -> _info_list();
@@ -140,22 +140,32 @@ class IndexController extends HomeController {
 		$model = D("UserConfig") -> set_config($data);
 	}
 
-	protected function _mail_list() {
+	protected function _office_list() {
 		$user_id = get_user_id();
-		$model = D('Mail');
+		$dept_id = get_dept_id();
 
-		//获取最新邮件
-		$where['user_id'] = $user_id;
-		$where['is_del'] = array('eq', '0');
-		$where['folder'] = array( array('eq', 1), array('gt', 6), 'or');
+		$map['_string'] = " Office.is_public=1 or Office.dept_id=$dept_id ";
 
-		$new_mail_list = $model -> where($where) -> field("id,name,create_time") -> order("create_time desc") -> limit(8) -> select();
-		$this -> assign('new_mail_list', $new_mail_list);
+		$office_list = M("OfficeScope") -> where("user_id=$user_id") -> getField('office_id', true);		
+			$office_list = implode(",", $office_list);
 
-		//获取未读邮件
-		$where['read'] = array('eq', '0');
-		$unread_mail_list = $model -> where($where) -> field("id,name,create_time") -> order("create_time desc") -> limit(8) -> select();
-		$this -> assign('unread_mail_list', $unread_mail_list);
+			if (!empty($office_list)) {
+				$map['_string'] .= "or Office.id in ($office_list)";
+			}
+
+			$folder_list = D("SystemFolder") -> get_authed_folder("Office");
+			
+			if ($folder_list) {
+				$map['folder'] = array("in", $folder_list);
+			} else {
+				$map['_string'] = '1=2';
+			}
+			$map['is_del'] = array('eq', 0);
+
+			$model = D("OfficeView");
+			
+			$office_list = $model -> where($map) -> field("id,name,create_time,folder_name") -> order("create_time desc") -> limit(8) -> select();
+		$this -> assign("office_list", $office_list);
 	}
 
 	protected function _flow_list() {
