@@ -1077,7 +1077,7 @@ function show_contact($str, $mode = "show") {
 				if ($mode == "edit") {
 					$tmp = $tmp . "<span data=\"$data\"><nobr><b  title=\"$name - $data\">$name</b><a class=\"del\" title=\"删除\"><i class=\"fa fa-times\"></i></a></nobr></span>";
 				} else {
-					$tmp = $tmp . "<a data=\"$data\" title=\"$name - $data\" >$name;</a>&nbsp;";
+					$tmp = $tmp . "<span data=\"$data\" title=\"$name - $data\" >$name;</span>&nbsp;";
 				}
 			}
 		} else {
@@ -1088,7 +1088,7 @@ function show_contact($str, $mode = "show") {
 			if ($mode == "edit") {
 				$tmp = $tmp . "<span data=\"$data\"><nobr><b  title=\"$name - $data\">$name</b><a class=\"del\" title=\"删除\"><i class=\"fa fa-times\"></i></a></nobr></span>";
 			} else {
-				$tmp = $tmp . "<a title=\"$name\" >$name</a>";
+				$tmp = $tmp . "<span title=\"$name\" >$name</span>";
 			}
 		}
 	}

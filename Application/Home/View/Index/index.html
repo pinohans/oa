@@ -9,10 +9,10 @@
 				<div class="ibox-content">
 					<div class="ul_table widget-main">
 						<ul>
-							<volist name="office_list" id="vo">
+							<volist name="gov_list" id="vo">
 								<li>
 									<span class="pull-right hidden-xs">{$vo.create_time|to_date='Y-m-d '}</span>
-									<span class="auto autocut"><a href="{:U('info/read','id='.$vo['id'])}&return_url=Info/index" >【{$vo.folder_name}】{$vo.name}</a> </span>
+									<span class="auto autocut"><a href="{:U('Gov/read','id='.$vo['id'])}&return_url=Gov/index">【{$vo.type_name}】{$vo.name}</a> </span>
 								</li>
 							</volist>
 						</ul>
