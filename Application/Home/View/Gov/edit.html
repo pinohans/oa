@@ -1,0 +1,161 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+	{:W('PageHeader/simple',array('编辑：'.$vo['name']))}
+	<div class="operate panel panel-default">
+		<div class="panel-body">
+			<div class="pull-left">
+				<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
+				<a onclick="popup_confirm();"  class="btn btn-sm btn-primary">选择签收者</a>	
+			</div>
+			<div class="pull-right">
+				<a onclick="del();"  class="btn btn-sm btn-danger">删除</a>
+				<a onclick="save(1);"  class="btn btn-sm btn-primary">临时保存</a>
+				<a onclick="save(0);"  class="btn btn-sm btn-primary">提交</a>
+			</div>
+		</div>
+	</div>
+	<form method='post' id="form_data" name="form_data" enctype="multipart/form-data" class="well form-horizontal">
+		<input type="hidden" id="id" name="id" value="{$vo.id}">
+		<input type="hidden" id="ajax" name="ajax" value="0">
+		<input type="hidden" id="opmode" name="opmode" value="edit">
+
+		<input type="hidden" id="is_tmp" name="is_tmp" value="0">
+		<input type="hidden" id="scope_user_id" name="scope_user_id" value="">
+		<input type="hidden" id="scope_user_name" name="scope_user_name" value="">
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="name">标题*：</label>
+			<div class="col-sm-10">
+				<input value="{$vo.name}" class="form-control" type="text" id="name" name="name" check="require" msg="请输入标题">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" >类别*：</label>
+			<div class="col-sm-10">
+				<input value="{$vo.type_name}" class="form-control" type="text" id="type_name" name="type_name" check="require" msg="请输入类别">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" >文件编号*：</label>
+			<div class="col-sm-10">
+				<input value="{$vo.doc_no}" class="form-control" type="text" id="doc_no" name="doc_no" check="require" msg="请输入文件编号">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="location">接收者：</label>
+			<div class="col-sm-10">
+				<div id="actor_wrap" class="inputbox">
+					<div class="wrap" >
+						<span class="address_list">{$vo.scope_user_name||show_contact="edit"}</span>
+						<span class="text" >
+							<input class="letter" type="text"  >
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" >意见：</label>
+			<div class="col-sm-10">
+				<input value="{$vo.advice}" class="form-control" type="text" id="advice" name="advice">
+			</div>
+		</div>
+		<div class="form-group col-sm-6">
+			<label class="col-sm-4 control-label" >日期：</label>
+			<div class="col-sm-8">
+				<p class="form-control-static">
+					{$vo.create_time|to_date='Y-m-d'}
+				</p>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-6">
+			<label class="col-sm-4 control-label" >编写人：</label>
+			<div class="col-sm-8">
+				<p class="form-control-static">
+					{$vo.user_name}
+				</p>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-6">
+			<label class="col-sm-4 control-label" >部门：</label>
+			<div class="col-sm-8">
+				<p class="form-control-static">
+					{$vo.dept_name}
+				</p>
+			</div>
+		</div>
+
+
+		<div class="form-group">
+			<div class="col-xs-12">
+				<textarea class="editor" id="content" name="content" style="width:100%;height:300px;">{$vo.content}</textarea>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" >附件：</label>
+			<div class="col-sm-10">
+				{:W('FileUpload/edit',array('add_file'=>$vo['add_file']))}
+			</div>
+		</div>
+	</form>
+</block>
+<block name="js">
+	<script type="text/javascript">
+		function save(tmp) {
+			$("#scope_user_name").val("");
+			$("#actor_wrap span.address_list span").each(function() {
+				$("#scope_user_name").val($("#scope_user_name").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";");
+			});
+
+			$("#scope_user_id").val("");
+			$("#actor_wrap span.address_list span").each(function() {
+				$("#scope_user_id").val($("#scope_user_id").val() + $(this).attr("data") + ",");
+			});
+			$("#is_tmp").val(tmp);
+			sendForm("form_data", "{:U('save')}");
+            var t=3;
+			var int=setInterval(function(){
+				t--;
+				if(t==0){
+					$("#post").html("提交")
+					$("#post").attr("onclick","save(0)");
+					 clearInterval(int);
+	
+				}else{
+				  $("#post").attr("onclick","javascript:alert('不能重复提交！')");
+				  $("#post").html("重新提交("+t+")")	
+				}
+			},1000)
+		}
+
+		function popup_confirm() {
+			winopen("{:U('popup/scope')}", 560, 470);
+		}
+
+		function del() {
+			ui_confirm('确定要删除吗?', function() {
+				sendAjax("{:U('del')}", 'id={$vo.id}', function(data) {
+					if (data.status) {
+						ui_alert(data.info, function() {
+							go_return_url();
+						});
+					}
+				});
+			});
+		}
+
+		$(document).ready(function() {
+		});
+		$(document).on("click", ".inputbox .address_list a.del", function() {
+			$(this).parent().parent().remove();
+		});
+	</script>
+
+</block>

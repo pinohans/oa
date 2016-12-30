@@ -1,15 +1,5 @@
 <?php
-/*--------------------------------------------------------------------
- 小微OA系统 - 让工作更轻松快乐
 
- Copyright (c) 2013 http://www.smeoa.com All rights reserved.
-
- Author:  jinzhu.yin<smeoa@qq.com>
-
- Support: https://git.oschina.net/smeoa/xiaowei
---------------------------------------------------------------*/
-
-// 角色模块
 namespace Home\Controller;
 
 class RoleController extends HomeController {

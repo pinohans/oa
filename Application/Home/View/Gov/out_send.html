@@ -1,0 +1,93 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+	{:W('PageHeader/simple',array('name'=>'师市公文：公文发送'.$flow_type['name']))}
+	<div class="operate panel panel-default">
+		<div class="panel-body">
+			<div class="pull-left">
+				<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
+			</div>
+			<div class="pull-right">
+				<a onclick="save(1);"  class="btn btn-sm btn-primary">存草稿</a>
+				<a onclick="save(0);"  id="post" class="btn btn-sm btn-primary">提交</a>
+			</div>
+		</div>
+	</div>
+	<form method='post' id="form_data" name="form_data" enctype="multipart/form-data" class="well form-horizontal">
+		<input type="hidden" id="ajax" name="ajax" value="1">
+
+		<input type="hidden" id="opmode" name="opmode" value="add">
+		<input type="hidden" id="inside" name="inside" value="0">
+		<input type="hidden" id="is_tmp" name="is_tmp" value="0">
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="name">标题*：</label>
+			<div class="col-sm-10">
+				<input class="form-control" type="text" id="name" name="name" check="require" msg="请输入标题">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" >类别*：</label>
+			<div class="col-sm-10">
+				<input class="form-control" type="text" id="type_name" name="type_name" check="require" msg="请输入类别">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" >文件编号*：</label>
+			<div class="col-sm-10">
+				<input class="form-control" type="text" id="doc_no" name="doc_no" check="require" msg="请输入文件编号">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="location">接收者：</label>
+			<div class="col-sm-10">
+	
+				<input class="form-control" type="text"  >
+	
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-12">
+				<textarea class="editor" id="content" name="content" style="width:100%;height:300px;"></textarea>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" >附件：</label>
+			<div class="col-sm-10">
+				{:W('FileUpload/add')}
+			</div>
+		</div>
+	</form>
+</block>
+<block name="js">
+	<script type="text/javascript">
+		$(document).ready(function() {
+		});
+		
+		function save(tmp) {
+			$("#is_tmp").val(tmp);
+			sendForm("form_data", "{:U('save')}");
+            var t=3;
+			var int=setInterval(function(){
+				t--;
+				if(t==0){
+					$("#post").html("提交")
+					$("#post").attr("onclick","save(0)");
+					 clearInterval(int);
+	
+				}else{
+				  $("#post").attr("onclick","javascript:alert('不能重复提交！')");
+				  $("#post").html("重新提交("+t+")")	
+				}
+			},1000)
+			
+		}
+
+
+	</script>
+
+</block>

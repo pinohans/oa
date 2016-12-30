@@ -1,13 +1,5 @@
 <?php
-/*--------------------------------------------------------------------
- 小微OA系统 - 让工作更轻松快乐
 
- Copyright (c) 2013 http://www.smeoa.com All rights reserved.
-
- Author:  jinzhu.yin<smeoa@qq.com>
-
- Support: https://git.oschina.net/smeoa/xiaowei
- --------------------------------------------------------------*/
 
 namespace Home\Controller;
 use Think\Controller;
@@ -32,11 +24,6 @@ class PushController extends HomeController {
 			$response['timestamp'] = $start_time;
 		} else {
 			$response['status'] = 1;
-			$tmp=json_decode($data['data'],true);
-			foreach ($tmp as $key => $value) {
-				$tmp[$key]=substr($value, 0,140);
-			}
-			$data['data']=json_encode($tmp);
 			$response['data'] = $data;
 			$response['timestamp'] = time();
 			$response['count']=$this->get_count($user_id);

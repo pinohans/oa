@@ -1,20 +1,9 @@
 <?php
-/*--------------------------------------------------------------------
- 小微OA系统 - 让工作更轻松快乐
-
- Copyright (c) 2013 http://www.smeoa.com All rights reserved.
-
- Author:  jinzhu.yin<smeoa@qq.com>
-
- Support: https://git.oschina.net/smeoa/xiaowei
- --------------------------------------------------------------*/
-
 namespace Home\Controller;
 
 class ContactController extends HomeController {
 	protected $config = array('app_type' => 'personal');
 
-	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['user_id'] = array('eq', get_user_id());
 		$map['is_del'] = array('eq', '0');
@@ -53,23 +42,15 @@ class ContactController extends HomeController {
 		$where['user_id'] = array('eq', get_user_id());
 		$where['is_del'] = array('eq', 0);
 		$list = $model -> where($where) -> select();
-
-		//导入thinkphp第三方类库
 		Vendor('Excel.PHPExcel');
-
-		//$inputFileName = "Public/templete/contact.xlsx";
-		// $objPHPExcel = \PHPExcel_IOFactory::load($inputFileName);
 		$objPHPExcel = new \PHPExcel();
 		$objPHPExcel -> getProperties() -> setCreator("smeoa") -> setLastModifiedBy("smeoa") -> setTitle("Office 2007 XLSX Test Document") -> setSubject("Office 2007 XLSX Test Document") -> setDescription("Test document for Office 2007 XLSX, generated using PHP classes.") -> setKeywords("office 2007 openxml php") -> setCategory("Test result file");
-		// Add some data
 		$i = 1;
 		$objPHPExcel -> setActiveSheetIndex(0) -> setCellValue("A$i", "姓名") -> setCellValue("B$i", "单位") -> setCellValue("C$i", "部门") -> setCellValue("D$i", "职位") -> setCellValue("E$i", "办公电话") -> setCellValue("F$i", "手机") -> setCellValue("G$i", "邮箱") -> setCellValue("H$i", "QQ") -> setCellValue("I$i", "网站") -> setCellValue("J$i", "地址") -> setCellValue("K$i", "其他");
-		//dump($list);
 		foreach ($list as $val) {
 			$i++;
 			$objPHPExcel -> setActiveSheetIndex(0) -> setCellValue("A$i", $val["name"]) -> setCellValue("B$i", $val["company"]) -> setCellValue("C$i", $val["dept"]) -> setCellValue("D$i", $val["position"]) -> setCellValue("E$i", $val["office_tel"]) -> setCellValue("F$i", $val["mobile_tel"]) -> setCellValue("G$i", $val["email"]) -> setCellValue("H$i", $val["im"]) -> setCellValue("I$i", $val["website"]) -> setCellValue("J$i", $val["address"]) -> setCellValue("J$i", $val["remark"]);
 		}
-		// Rename worksheet
 		$objPHPExcel -> getActiveSheet() -> setTitle('Contact');
 
 		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
