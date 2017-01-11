@@ -1183,6 +1183,7 @@ body, h1, h2, h3, h4, h5, h6, p, ul, li, ol, dt, dl, input, textarea {
 	background-origin: padding-box;
 	background-clip: border-box;
 	background-color: rgb(255, 255, 255);
+	/*width: 97%;*/
 }
 .inputbox:focus {
 	border-top-color: #66afe9;
@@ -2201,7 +2202,10 @@ body, h1, h2, h3, h4, h5, h6, p, ul, li, ol, dt, dl, input, textarea {
 		display: none;
 	}
 	.col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11 {
-		float: left
+		float: left;
+	}
+	..col-sm-10 {
+		float: left;
 	}
 	.col-sm-1 {
 		width: 8.33333%
@@ -2239,4 +2243,22 @@ body, h1, h2, h3, h4, h5, h6, p, ul, li, ol, dt, dl, input, textarea {
 	.col-sm-12 {
 		width: 100%
 	}
+}
+
+
+.ppap{
+	position: absolute;
+	min-height: 100px;
+	max-height: 150px;
+	margin-top: -1px;
+	width: 97%;
+	background-color: #fff;
+	overflow-y:scroll;
+	z-index: -1;
+	opacity: 0;
+	border:1px solid #ddd;
+}
+.ppap span{
+	padding: 5px 0 0 10px;
+	display: block;
 }
