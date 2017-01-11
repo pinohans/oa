@@ -122,6 +122,7 @@ class GovController extends HomeController {
 	}
 
 	function out_send() {
+		$plugin['jquery-ui'] = true;
 
 		$plugin['date'] = true;
 		$plugin['uploader'] = true;
@@ -132,7 +133,7 @@ class GovController extends HomeController {
 	}
 
 	function in_send() {
-
+		$plugin['jquery-ui'] = true;
 		$plugin['date'] = true;
 		$plugin['uploader'] = true;
 		$plugin['editor'] = true;
@@ -180,6 +181,7 @@ class GovController extends HomeController {
 	}
 
 	function edit($id) {
+		$plugin['jquery-ui'] = true;
 		$plugin['date'] = true;
 		$plugin['uploader'] = true;
 		$plugin['editor'] = true;
@@ -210,7 +212,20 @@ class GovController extends HomeController {
 
 		$model = D("GovLog");
 		$map['id'] = $_POST['confirm_id'];
-		if ($model -> where($map) -> setField( array('is_read' => 1, 'update_time' => time())) !== false) {//保存成功
+		if ($model -> where($map) -> setField( array('is_read' => 1, 'update_time' => time(), 'comment' => $_POST['comment'])) !== false) {//保存成功
+
+			$this -> success('操作成功!');
+		} else {
+			//失败提示
+			$this -> error('操作失败!');
+		}
+	}
+
+	public function reject() {
+
+		$model = D("GovLog");
+		$map['id'] = $_POST['confirm_id'];
+		if ($model -> where($map) -> setField( array('is_read' => 1, 'is_del' => 1, 'update_time' => time(), 'comment' => $_POST['comment'])) !== false) {//保存成功
 
 			$this -> success('操作成功!');
 		} else {

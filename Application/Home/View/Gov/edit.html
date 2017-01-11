@@ -9,7 +9,7 @@
 			</div>
 			<div class="pull-right">
 				<a onclick="del();"  class="btn btn-sm btn-danger">删除</a>
-				<a onclick="save(1);"  class="btn btn-sm btn-primary">临时保存</a>
+				<a onclick="save(1);"  class="btn btn-sm btn-primary">保存</a>
 				<a onclick="save(0);"  class="btn btn-sm btn-primary">提交</a>
 			</div>
 		</div>
@@ -41,6 +41,42 @@
 			<label class="col-sm-2 control-label" >文件编号*：</label>
 			<div class="col-sm-10">
 				<input value="{$vo.doc_no}" class="form-control" type="text" id="doc_no" name="doc_no" check="require" msg="请输入文件编号">
+			</div>
+		</div>
+		
+		<div class="form-group col-sm-6">
+			<label class="col-sm-4 control-label" for="location">重要性：</label>
+			<div class="col-sm-8">
+				<div class="form-control-static" >
+					<input type="hidden" id="important" name="important"/>
+					<div id="slider_box_important" class="slider_box" >
+						<div class="left" >
+							低
+						</div>
+						<div id="basic_slider_important"></div>
+						<div class="right" >
+							高
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-6">
+			<label class="col-sm-4 control-label" for="location">优先级：</label>
+			<div class="col-sm-8">
+				<div class="form-control-static" >
+					<input type="hidden" id="urge" name="urge"/>
+					<div id="slider_box_urge" class="slider_box" >
+						<div class="left" >
+							低
+						</div>
+						<div id="basic_slider_urge"></div>
+						<div class="right" >
+							高
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -152,6 +188,36 @@
 		}
 
 		$(document).ready(function() {
+			$("#basic_slider_important").noUiSlider({
+				start : {$vo.important},
+				step : 1,
+				range : {
+					'min' : 1,
+					'max' : 5,
+				},
+			});
+			$("#basic_slider_important").on('change', function() {
+				$("#slider_box_important .noUi-base").css("background-color", schedule_bg($(this).val()));
+				$("#important").val($(this).val());
+			});
+			
+
+			$("#basic_slider_urge").noUiSlider({
+				start : {$vo.urge},
+				step : 1,
+				range : {
+					'min' : 1,
+					'max' : 5,
+				},
+			});
+			$("#basic_slider_urge").on('change', function() {
+				$("#slider_box_urge .noUi-base").css("background-color", schedule_bg($(this).val()));
+				$("#urge").val($(this).val());
+			});
+			$("#important").val({$vo.important});
+			$("#urge").val({$vo.urge});
+			$("#slider_box_important .noUi-base").css("background-color", schedule_bg({$vo.important}));
+			$("#slider_box_urge .noUi-base").css("background-color", schedule_bg({$vo.urge}));
 		});
 		$(document).on("click", ".inputbox .address_list a.del", function() {
 			$(this).parent().parent().remove();
