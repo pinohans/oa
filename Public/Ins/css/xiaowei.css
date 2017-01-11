@@ -2237,9 +2237,6 @@ body, h1, h2, h3, h4, h5, h6, p, ul, li, ol, dt, dl, input, textarea {
 	.col-sm-10 {
 		width: 83.3333%
 	}
-	.col-sm-10_m {
-		width: 83.3333%
-	}
 	.col-sm-11 {
 		width: 91.6666%
 	}
@@ -2264,9 +2261,4 @@ body, h1, h2, h3, h4, h5, h6, p, ul, li, ol, dt, dl, input, textarea {
 .ppap span{
 	padding: 5px 0 0 10px;
 	display: block;
-}
-.col-sm-10_m{
-	position: relative;
-	min-height: 1px;
-	padding-left: 15px;
 }
