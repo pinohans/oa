@@ -1,13 +1,4 @@
 <?php
-/*--------------------------------------------------------------------
- 小微OA系统 - 让工作更轻松快乐
-
- Copyright (c) 2013 http://www.smeoa.com All rights reserved.
-
- Author:  jinzhu.yin<smeoa@qq.com>
-
- Support: https://git.oschina.net/smeoa/xiaowei
- --------------------------------------------------------------*/
 namespace Home\Controller;
 
 class TaskController extends HomeController {
@@ -57,11 +48,11 @@ class TaskController extends HomeController {
 
 		switch ($fid) {
 			case 'all' :
-				$this -> assign("folder_name", '所有任务');
+				$this -> assign("folder_name", '所有项目');
 				break;
 				
 			case 'dept' :
-				$this -> assign("folder_name", '我们部门的任务');
+				$this -> assign("folder_name", '我们部门的项目');
 				$auth = $this -> config['auth'];
 
 				if ($auth['admin']) {
@@ -80,7 +71,7 @@ class TaskController extends HomeController {
 				break;
 
 			case 'no_assign' :
-				$this -> assign("folder_name", '不知道由谁处理的任务');
+				$this -> assign("folder_name", '不知道由谁处理的项目');
 
 				$prefix = C('DB_PREFIX');
 
@@ -132,12 +123,12 @@ class TaskController extends HomeController {
 				break;
 
 			case 'my_task' :
-				$this -> assign("folder_name", '我发布的任务');
+				$this -> assign("folder_name", '我发布的项目');
 				$where['user_id'] = get_user_id();
 				break;
 
 			case 'my_assign' :
-				$this -> assign("folder_name", '我指派的任务');
+				$this -> assign("folder_name", '我指派的项目');
 
 				$where_log['assigner'] = get_user_id();
 				$task_list = M("TaskLog") -> where($where_log) -> getField('task_id', TRUE);
@@ -319,9 +310,9 @@ class TaskController extends HomeController {
 
 				$transactor_name = get_user_name();
 
-				$push_data['type'] = '任务';
+				$push_data['type'] = '项目';
 				$push_data['action'] = '已完成';
-				$push_data['title'] = "{$transactor_name}已完成您发起的[{$task['name']}]任务";
+				$push_data['title'] = "{$transactor_name}已完成您发起的[{$task['name']}]项目";
 				$push_data['content'] = "如有问题，请与[{$transactor_name}]进行沟通。";
 				$push_data['url'] = U('Task/read',"id={$task['id']}&return_url&Task/index");
 
@@ -380,16 +371,16 @@ class TaskController extends HomeController {
 
 		$transactor_name = implode(",", $transactor_name);
 
-		$title = "您发布任务已完成：" . $info['name'];
+		$title = "您发布项目已完成：" . $info['name'];
 
-		$body = "您好，{$user_name}，{$transactor_name} 完成了您发起的[{$info['name']}]任务</br>";
-		$body .= "任务主题：{$info['name']}</br>";
-		$body .= "任务时间：{$info['expected_time']}</br>";
-		$body .= "任务执行人：{$transactor_name}</br>";
-		$body .= "请及时检查任务执行情况，如有问题，请与[{$transactor_name}]进行沟通。</br>";
-		$body .= "任务完成后请对[任务执行人]表达我们的感谢。</br>";
+		$body = "您好，{$user_name}，{$transactor_name} 完成了您发起的[{$info['name']}]项目</br>";
+		$body .= "项目主题：{$info['name']}</br>";
+		$body .= "项目时间：{$info['expected_time']}</br>";
+		$body .= "项目执行人：{$transactor_name}</br>";
+		$body .= "请及时检查项目执行情况，如有问题，请与[{$transactor_name}]进行沟通。</br>";
+		$body .= "项目完成后请对[项目执行人]表达我们的感谢。</br>";
 
-		$body .= "点击查看任务详情：http://" . $_SERVER['SERVER_NAME'] . U('Task/read', 'id=' . $info['id']) . "</br>";
+		$body .= "点击查看项目详情：http://" . $_SERVER['SERVER_NAME'] . U('Task/read', 'id=' . $info['id']) . "</br>";
 		$body .= "霞湖世家，感谢有您！</br>";
 
 		send_mail($email, $user_name, $title, $body);

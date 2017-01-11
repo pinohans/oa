@@ -44,7 +44,7 @@
 				</div>
 			</div>
 			<div class="form-group col-sm-6">
-				<label class="col-sm-4 control-label" for="account_id">客户名称：</label>
+				<label class="col-sm-4 control-label" for="account_id">付款人：</label>
 				<div class="col-sm-8">
 					<p class="form-control-static">
 						{$vo.partner}
@@ -125,7 +125,7 @@
 				</div>
 			</div>
 			<div class="form-group col-sm-6">
-				<label class="col-sm-4 control-label" for="account_id">供应商名称：</label>
+				<label class="col-sm-4 control-label" for="account_id">收款人：</label>
 				<div class="col-sm-8">
 					<p class="form-control-static">
 						{$vo.partner}
@@ -261,7 +261,6 @@
 <block name="js">
 	<script type="text/javascript">
 		$(document).ready(function() {
-			set_return_url(document.location, 1);
 			$.getJSON("{:U('Finance/read_account')}", {
 				account_id : {$vo.account_id}
 			}, function(data) {

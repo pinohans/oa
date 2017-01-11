@@ -1,0 +1,11 @@
+<extend name="base" />
+<block name="body">
+<h1>文章</h1>
+	<?php
+	for ($i=0; $list[$i]['id']!=null ; $i++) { 
+		echo "<a href=''>".$list[$i]['title']."</a></br>";
+		echo "<span>".$list[$i]['last_date']."</span></br>";
+	}
+		
+	?>	
+</block>

@@ -1,17 +1,4 @@
 <?php
-/*---------------------------------------------------------------------------
-  小微OA系统 - 让工作更轻松快乐 
-
-  Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
-
-
-  Author:  jinzhu.yin<smeoa@qq.com>                         
-
-  Support: https://git.oschina.net/smeoa/xiaowei               
- -------------------------------------------------------------------------*/
-
-
-// 用户模型
 namespace Home\Model;
 use Think\Model;
 
@@ -33,6 +20,12 @@ class  UserModel extends CommonModel {
 		if(!empty($keyword)){
 			$sql.= " and (user.emp_no like '%$keyword%' or user.name like '%$keyword%') ";
 		}
+		$rs = $this->db->query($sql);
+		return $rs;
+	}
+
+	function get_accepter(){
+		$sql = "SELECT id,name,letter FROM ".$this->tablePrefix."user WHERE is_del=0";
 		$rs = $this->db->query($sql);
 		return $rs;
 	}

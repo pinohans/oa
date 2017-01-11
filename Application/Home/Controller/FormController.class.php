@@ -1,13 +1,5 @@
 <?php
-/*--------------------------------------------------------------------
- 小微OA系统 - 让工作更轻松快乐
 
- Copyright (c) 2013 http://www.smeoa.com All rights reserved.
-
- Author:  jinzhu.yin<smeoa@qq.com>
-
- Support: https://git.oschina.net/smeoa/xiaowei
- --------------------------------------------------------------*/
 
 namespace Home\Controller;
 
@@ -270,7 +262,7 @@ class FormController extends HomeController {
 	}
 
 	function folder_manage() {
-		$this -> _system_folder_manage('报表管理', true);
+		$this -> _system_folder_manage('项目管理', true);
 	}
 
 	function upload() {

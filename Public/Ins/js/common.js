@@ -5,6 +5,9 @@ function del_current_node() {
 function winprint() {
 	$("#sidebar").addClass("hidden");
 	$("#page-wrapper").addClass("print");
+	$style = $("#page-wrapper").attr('style');
+	$("#page-wrapper").css('min-height', '100px');
+
 	setTimeout(function() {
 		window.print();
 	}, 300);
@@ -12,6 +15,7 @@ function winprint() {
 	setTimeout(function() {
 		$("#page-wrapper").removeClass("print");
 		$("#sidebar").removeClass("hidden");
+		$("#page-wrapper").attr('style', $style);
 	}, 700);
 }
 
@@ -74,7 +78,8 @@ function ui_info(msg) {
 	}
 	toastr.options = {
 		"closeButton" : true,
-		"positionClass" : position
+		"positionClass" : position,
+		"timeOut" : ws_push_time * 1000
 	};
 	toastr.info(msg);
 }
@@ -88,7 +93,8 @@ function ui_error(msg) {
 	}
 	toastr.options = {
 		"closeButton" : true,
-		"positionClass" : position
+		"positionClass" : position,
+		"timeOut" : ws_push_time * 1000
 	};
 	toastr.error('', msg);
 }
@@ -100,7 +106,21 @@ function push_info($msg) {
 	} else {
 		$title = '<h3>[' + $msg.type + ']</h3>';
 	}
-	$content = '<b>' + $msg.title + '</b><br>' + $msg.content;
+	var strlen = 0;
+	var s = ""; 
+	for (var i = 0; i < $msg.content.length; i++) { 
+		if ($msg.content.charCodeAt(i) > 128) { 
+			strlen += 2; 
+		} else { 
+			strlen++; 
+		} 
+		s += $msg.content.charAt(i); 
+		if (strlen >= 140) { 
+			s+="..."; 
+			break; 
+		} 
+	}
+	$content = '<b>' + $msg.title + '</b><br>' + s;
 
 	if (is_mobile()) {
 		position = "toast-top-full-width";
@@ -109,7 +129,8 @@ function push_info($msg) {
 	}
 	toastr.options = {
 		"closeButton" : true,
-		"positionClass" : position
+		"positionClass" : position,
+		"timeOut" : ws_push_time * 1000
 	};
 	toastr.info($content, $title);
 }
@@ -334,14 +355,16 @@ var Inputbox = {
 /*赋值*/
 
 function set_val(name, val) {
-
+	if(val==null){
+		return ;
+	}
 	if ($("#" + name + " option").length > 0) {
 		if (val == "") {
-			$("#" + name + " option:first")[0].selected=true;
-		} else {
-			if($("#" + name + " [value=" + val + "]")!=undefined){
-				$("#" + name + " [value=" + val + "]")[0].selected=true;	
-			}			
+			$("#" + name + " option:first")[0].selected = true;
+		} else {			
+			if ($("#" + name + " [value=" + val + "]") != undefined) {
+				$("#" + name + " [value=" + val + "]")[0].selected = true;
+			}
 		}
 		return;
 	}
@@ -383,8 +406,8 @@ function show_udf_val($udf_data) {
 }
 
 /*设置要返回的URL*/
-function set_return_url(level,url) {
-	if (level != undefined) {		
+function set_return_url(level, url) {
+	if (level != undefined) {
 		if (url == undefined) {
 			set_cookie("return_url_" + level, document.location);
 		} else {
@@ -497,7 +520,7 @@ function check_form(form_id) {
 	if (last_submit == undefined) {
 		$('#' + form_id).data('last_submit', new Date().getTime());
 	} else {
-		if (current_submit - last_submit > 3000) {
+		if (current_submit - last_submit > 5000) {
 			$('#' + form_id).data('last_submit', new Date().getTime());
 		} else {
 			return false;
@@ -508,7 +531,7 @@ function check_form(form_id) {
 	}
 
 	var check_flag = true;
-	$("#" + form_id + " :input").each(function(i) {
+	$("#" + form_id + " :input").each(function(i){
 		if ($(this).attr("check")) {
 			if (!validate($(this).val(), $(this).attr("check"))) {
 				ui_error($(this).attr("msg"));
@@ -518,6 +541,7 @@ function check_form(form_id) {
 			}
 		}
 	});
+ 
 	return check_flag;
 }
 
@@ -716,10 +740,10 @@ var udf_field = {
 				}
 				if (udf_field.data !== undefined) {
 					$field_id = $obj.attr("id").replace("udf_field_", "");
-					$udf_data=udf_field.data[$field_id];
-					if($udf_data.indexOf('|')){
-						$udf_data=$udf_data.split('|');
-						for(s in $udf_data){
+					$udf_data = udf_field.data[$field_id];
+					if ($udf_data.indexOf('|')) {
+						$udf_data = $udf_data.split('|');
+						for (s in $udf_data) {
 							$("[name='udf_field_id]")
 						}
 					}
@@ -733,12 +757,12 @@ var udf_field = {
 				fill_option($sub, $current);
 			});
 
-			json = eval("("+$data+")");//转换为json对象 
+			json = eval("(" + $data + ")");
+			//转换为json对象
 			fill_option($main, $pid);
 		});
 	},
 };
-
 
 var udf_field2 = {
 	init : function(udf_data) {
@@ -811,3 +835,93 @@ $(document).ready(function() {
 	$(".navbar-nav a.nav-app[node=" + top_menu + "]").addClass("active");
 
 });
+
+
+function close_ppap(){
+	// $(".ppap").attr("z-index","-1");
+	// $(".ppap").attr("opacity","0");
+	// 
+	$("#actor_wrap input").val('');
+	var obj=document.getElementById('ppp');
+	obj.style.zIndex = '-1';
+	obj.style.opacity = '0';
+	$("#ppp").empty();
+	// $("#actor_wrap input")[0].focus();
+}
+
+function open_ppap(){
+	var obj=document.getElementById('ppp');
+	obj.style.zIndex = '1000';
+	obj.style.opacity = '1';
+}
+
+function name_select(users){
+	
+	$(document).click(function(){
+   		close_ppap();
+	});
+	$("#ppp,#actor_wrap input").click(function(event){
+	   	event.stopPropagation();
+	});
+
+	$("#actor_wrap input").keyup(function(e){
+		var key = e.which;
+		if (key == 13) {
+			if ($("#ppp").has('span').length) {
+				$("#ppp span:first").trigger('click');
+			}
+		}
+		else{
+			$('#ppp').empty();
+			if ($("#actor_wrap input").val() != '') {
+				//var users='{$userlist}';
+			 	$.each(users, function(i,item){
+					var name=item.name;
+					var letter=item.letter;
+					if (name.indexOf($("#actor_wrap input").val()) != -1 || letter.indexOf($("#actor_wrap input").val().toUpperCase()) != -1) {
+						
+						$(".ppap").append("<span name="+item.id+">"+name+"</span>");
+						
+						$(".ppap span[name='"+item.id+"']").bind('click',function(){
+							var html = conv_inputbox_item($(this).html(), $(this).attr('name'));
+							$("#actor_wrap .address_list", parent.document).append(html);
+							close_ppap();
+							$("#actor_wrap input")[0].focus();
+						});
+						
+					}
+			 	});
+			 	
+			 	open_ppap();
+			}
+			else{
+				close_ppap();
+			}
+		}
+	});	
+
+	
+	$("#actor_wrap input").keydown(function(e){
+		var key = e.which;
+		if (key == 8 && $(this).val() == "") {
+			if ($(".address_list").has('span').length) {
+				$(".address_list span:last").remove();
+			}
+		}
+	});
+
+	function set_width(){
+		var c_width = document.documentElement.clientWidth;
+		var obj=document.getElementById('my_label');
+		if(c_width<=768.00){				
+			obj.style.display='none';
+		}
+		else{ 
+			obj.style.display=''; 
+		}
+	}
+	
+	window.onresize=function(){
+		set_width();
+	}
+}

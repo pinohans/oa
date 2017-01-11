@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 		<title>{$title|default=get_system_config("system_name")}</title>
 		<link href="__INS__/css/bootstrap.min.css" rel="stylesheet">
 		<link href="__INS__/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -36,8 +36,10 @@
 			$(document).ready(function() {
 				$(".popup-container").width($("#dialog", parent.document).width());
 				if (is_mobile()) {
-					$(".popup-container").height(window.screen.height - 40);
+					$(".popup-container").height(window.screen.height - 40);					
 					$(".popup-container").css('overflow', 'auto');
+					
+					$(".popup-body").height(window.screen.height - 94);
 				}
 			});
 		</script>

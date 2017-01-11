@@ -1,14 +1,4 @@
 <?php
-/*---------------------------------------------------------------------------
- 小微OA系统 - 让工作更轻松快乐
-
- Copyright (c) 2013 http://www.smeoa.com All rights reserved.
-
- Author:  jinzhu.yin<smeoa@qq.com>
-
- Support: https://git.oschina.net/smeoa/xiaowei
- -------------------------------------------------------------------------*/
-// 用户模型
 namespace Home\Model;
 use Think\Model;
 
@@ -63,7 +53,7 @@ class TaskModel extends CommonModel {
 			}
 			
 			$push_data['type'] = '任务';
-			$push_data['action'] = '需要执行';
+			$push_data['action'] = '需要完成';
 			$push_data['title'] = "来自：" . get_dept_name()."-".get_user_name();
 			$push_data['content'] = "标题：" . $data['name'];
 			$push_data['url'] = U('Task/read',"id={$data['id']}&return_url=Task/index");
@@ -108,7 +98,7 @@ class TaskModel extends CommonModel {
 			}
 			
 			$push_data['type'] = '任务';
-			$push_data['action'] = '需要执行';
+			$push_data['action'] = '需要完成';
 			$push_data['title'] = "来自：" . get_dept_name()."-".get_user_name();
 			$push_data['content'] = "标题：" . $data['name'];
 			$push_data['url'] = U('Task/read',"id={$data['id']}&return_url=Task/index");

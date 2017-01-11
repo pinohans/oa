@@ -1,13 +1,4 @@
 <?php
-/*---------------------------------------------------------------------------
- 小微OA系统 - 让工作更轻松快乐
-
- Copyright (c) 2013 http://www.smeoa.com All rights reserved.
-
- Author:  jinzhu.yin<smeoa@qq.com>
-
- Support: https://git.oschina.net/smeoa/xiaowei
- -------------------------------------------------------------------------*/
 
 namespace Home\Model;
 use Think\Model;
@@ -16,7 +7,7 @@ class  SystemFolderModel extends CommonModel {
 
 	function get_folder_list($controller = CONTROLLER_NAME, $field = 'id,name,pid,sort') {
 		$where['controller'] = $controller;
-		$where['is_del'] = 0;
+		#$where['is_del'] = 0;
 		$list = $this -> where($where) -> order("sort") -> Field($field) -> select();
 
 		return $list;

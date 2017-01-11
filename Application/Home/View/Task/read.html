@@ -1,6 +1,6 @@
 <extend name="Layout/ins_page" />
 <block name="content">
-	{:W('PageHeader',array('name'=>'任务详情','search'=>'N'))}
+	{:W('PageHeader',array('name'=>'项目详情','search'=>'N'))}
 	<div class="operate panel panel-default">
 		<div class="panel-body">
 			<div class="pull-left">
@@ -60,7 +60,7 @@
 		</div>
 
 		<div class="form-group">
-			<label class="col-sm-2 control-label" for="content">任务说明：</label>
+			<label class="col-sm-2 control-label" for="content">项目说明：</label>
 			<div class="col-xs-10">
 				<div class="task_content form-control-static">
 					{$vo.content}
@@ -76,7 +76,7 @@
 		</div>
 	</form>
 
-	{:W('PageHeader',array('name'=>'任务执行情况','search'=>'N'))}
+	{:W('PageHeader',array('name'=>'项目执行情况','search'=>'N'))}
 	<div class="ul_table border-bottom">
 		<ul>
 			<li class="thead">
@@ -97,7 +97,7 @@
 					<span class="col-13 text-center">&nbsp;{$item.plan_time|substr=0,16}&nbsp;</span>
 					<span class="col-13 text-center"> &nbsp;
 						<eq name='item.status' value='10'>
-							{$item.finish_rate|finish_rate}
+							{$item.finish_rate|task_finish_rate}
 						</eq>
 						<egt name='item.status' value='20'>
 							{$item.finish_time|substr=0,16}
@@ -124,7 +124,7 @@
 							<a href="#working" data-toggle="tab">执行情况</a>
 						</li>
 						<li>
-							<a href="#forword" data-toggle="tab">转交任务</a>
+							<a href="#forword" data-toggle="tab">转交项目</a>
 						</li>
 						<li>
 							<a href="#reject" data-toggle="tab">拒绝接受</a>

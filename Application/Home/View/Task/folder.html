@@ -59,7 +59,7 @@
 						</notempty></a>
 					</li>
 					<li <eq name="fid" value="dept">class="active"</eq>>
-						<a href="{:U('folder','fid=dept')}">部门任务
+						<a href="{:U('folder','fid=dept')}">部门项目
 						<notempty name="dept_task_count">
 							<span class="badge badge-pink">{$dept_task_count}</span>
 						</notempty></a>
@@ -83,7 +83,7 @@
 			</div>
 			<if condition="$auth['write']">
 				<div class="pull-right">
-					<a class="btn btn-sm btn-primary" onclick="add()">发布任务</a>
+					<a class="btn btn-sm btn-primary" onclick="add()">发布项目</a>
 				</div>
 			</if>
 		</div>

@@ -1,0 +1,80 @@
+<extend name="Layout/ins_base" />
+<block name="content">
+<div class="Public container">
+		<!-- /container -->
+		<div class="row">
+			<div class="col-xs-12" style="margin-top:40px;"></div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4 well col-sm-offset-4" style="height:700px;">
+				<div style="margin-bottom:44px;margin-top:20px;">
+					<h1 class="text-center">账号注册</h1>
+				</div>
+				<form method="post" id="form_login" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-3  control-label" for="emp_no">帐号：</label>
+						<div class="col-sm-9">
+							<input class="form-control" id="emp_no" name="emp_no" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3  control-label" for="nickname">昵称：</label>
+						<div class="col-sm-9">
+							<input class="form-control" id="nickname" name="nickname" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3  control-label" for="password">密码：</label>
+						<div class="col-sm-9">
+							<input class="form-control" id="password" type="password" name="password" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3  control-label" for="check_password">确认密码：</label>
+						<div class="col-sm-9">
+							<input class="form-control" id="check_password" type="password" name="check_password" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3  control-label" for="check_num">邀请码：</label>
+						<div class="col-sm-9">
+							<input class="form-control" id="check_num" name="check_num" />
+						</div>
+					</div>
+					<notempty name="is_verify_code">
+						<div class="form-group">
+							<label class="col-sm-3  control-label" for="verify">验证码：</label>
+							<div class="col-sm-9 row">
+								<div class="col-xs-6">
+									<input class="form-control" id="verify" name="verify" />
+								</div>
+								<div class="col-xs-6">
+									<img src="{:U('verify')}" style='cursor:pointer' title='刷新验证码' id='verifyImg' onclick='freshVerify()'>
+								</div>
+							</div>
+						</div>
+					</notempty>
+					<div class="form-group">
+						<div class="col-sm-offset-3 col-sm-9">
+							<input type="button" value="注册" onclick="sign_up();" class="btn btn-sm btn-primary col-10">
+
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+</block>
+<block name="js">
+	<script type="text/javascript">
+		function sign_up() {
+			sendForm("form_login", "{:U('public/check_sign_up')}");
+		}
+
+		function freshVerify() {
+			$('#verifyImg').attr("src", $('#verifyImg').attr("src") + "&" + Math.random());
+		}
+
+	</script>
+</block>

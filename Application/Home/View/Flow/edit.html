@@ -5,10 +5,11 @@
 		<div class="panel-body">
 			<div class="pull-left">
 				<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
-				<neq name="flow_type.type" value="1">
-					<a onclick="popup_confirm();"  class="btn btn-sm btn-primary">选择审批流程</a>
-
-				</neq>
+				
+					<neq name="flow_type.is_lock" value="1">
+						<a onclick="popup_confirm();"  class="btn btn-sm btn-primary">选择审批流程</a>
+					</neq>
+				
 			</div>
 			<div class="pull-right">
 				<a onclick="del();"  class="btn btn-sm btn-danger">删除</a>
