@@ -835,3 +835,93 @@ $(document).ready(function() {
 	$(".navbar-nav a.nav-app[node=" + top_menu + "]").addClass("active");
 
 });
+
+
+function close_ppap(){
+	// $(".ppap").attr("z-index","-1");
+	// $(".ppap").attr("opacity","0");
+	// 
+	$("#actor_wrap input").val('');
+	var obj=document.getElementById('ppp');
+	obj.style.zIndex = '-1';
+	obj.style.opacity = '0';
+	$("#ppp").empty();
+	// $("#actor_wrap input")[0].focus();
+}
+
+function open_ppap(){
+	var obj=document.getElementById('ppp');
+	obj.style.zIndex = '1000';
+	obj.style.opacity = '1';
+}
+
+function name_select(users){
+	
+	$(document).click(function(){
+   		close_ppap();
+	});
+	$("#ppp,#actor_wrap input").click(function(event){
+	   	event.stopPropagation();
+	});
+
+	$("#actor_wrap input").keyup(function(e){
+		var key = e.which;
+		if (key == 13) {
+			if ($("#ppp").has('span').length) {
+				$("#ppp span:first").trigger('click');
+			}
+		}
+		else{
+			$('#ppp').empty();
+			if ($("#actor_wrap input").val() != '') {
+				//var users='{$userlist}';
+			 	$.each(users, function(i,item){
+					var name=item.name;
+					var letter=item.letter;
+					if (name.indexOf($("#actor_wrap input").val()) != -1 || letter.indexOf($("#actor_wrap input").val().toUpperCase()) != -1) {
+						
+						$(".ppap").append("<span name="+item.id+">"+name+"</span>");
+						
+						$(".ppap span[name='"+item.id+"']").bind('click',function(){
+							var html = conv_inputbox_item($(this).html(), $(this).attr('name'));
+							$("#actor_wrap .address_list", parent.document).append(html);
+							close_ppap();
+							$("#actor_wrap input")[0].focus();
+						});
+						
+					}
+			 	});
+			 	
+			 	open_ppap();
+			}
+			else{
+				close_ppap();
+			}
+		}
+	});	
+
+	
+	$("#actor_wrap input").keydown(function(e){
+		var key = e.which;
+		if (key == 8 && $(this).val() == "") {
+			if ($(".address_list").has('span').length) {
+				$(".address_list span:last").remove();
+			}
+		}
+	});
+
+	function set_width(){
+		var c_width = document.documentElement.clientWidth;
+		var obj=document.getElementById('my_label');
+		if(c_width<=768.00){				
+			obj.style.display='none';
+		}
+		else{ 
+			obj.style.display=''; 
+		}
+	}
+	
+	window.onresize=function(){
+		set_width();
+	}
+}
