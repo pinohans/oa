@@ -139,6 +139,13 @@ class GovController extends HomeController {
 		$plugin['editor'] = true;
 		$this -> assign("plugin", $plugin);
 
+
+		$model = D("User");
+		$userlist = $model->get_accepter();
+		$userlist = json_encode($userlist);
+		$this->assign('userlist',$userlist);
+
+		
 		$this -> display();
 	}
 
@@ -176,6 +183,11 @@ class GovController extends HomeController {
 		$map['id'] = $id;
 
 		$this -> _list($model, $map, 'recieve_update_time');
+
+		$model = D("User");
+		$userlist = $model->get_accepter();
+		$userlist = json_encode($userlist);
+		$this->assign('userlist',$userlist);
 
 		$this -> display();
 	}
@@ -242,6 +254,5 @@ class GovController extends HomeController {
 	public function upload() {
 		$this -> _upload();
 	}
-
 
 }

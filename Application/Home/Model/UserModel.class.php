@@ -23,5 +23,11 @@ class  UserModel extends CommonModel {
 		$rs = $this->db->query($sql);
 		return $rs;
 	}
+
+	function get_accepter(){
+		$sql = "SELECT id,name,letter FROM ".$this->tablePrefix."user WHERE is_del=0";
+		$rs = $this->db->query($sql);
+		return $rs;
+	}
 }
 ?>
