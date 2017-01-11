@@ -33,8 +33,6 @@ class AuthCheckBehavior extends Behavior {
 				$params['auth'] = $auth;
 				return true;
 				break;
-			case 'public' :
-				return true;
 			case 'common' :
 				$auth = $this -> get_auth();
 				break;

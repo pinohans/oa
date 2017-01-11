@@ -533,10 +533,15 @@ class HomeController extends Controller {
 							$end_time = date_to_int(trim($_REQUEST["en_" . $field])) + 86400;
 							$map[$field] = array( array('egt', $start_time), array('elt', $end_time));
 						}
-						if (strpos($field, "date") != false) {
+						else if (strpos($field, "date") != false) {
 							$start_date = trim($_REQUEST[$val]);
 							$end_date = trim($_REQUEST["en_" . substr($val, 3)]);
 							$map[$field] = array( array('egt', $start_date), array('elt', $end_date));
+						}
+						else {
+							$start_val = trim($_REQUEST[$val]);
+							$end_val = trim($_REQUEST["en_" . substr($val, 3)]);
+							$map[$field] = array( array('egt', $start_val), array('elt', $end_val));
 						}
 					}
 				}
