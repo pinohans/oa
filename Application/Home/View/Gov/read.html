@@ -10,7 +10,7 @@
 			</div>
 			<div class="pull-right">
 				<a onclick="winprint();" class="btn btn-sm btn-primary hidden-xs">打印</a>
-				<a onclick="save();" class="btn btn-sm btn-primary">提交</a>
+				<a onclick="save();" class="btn btn-sm btn-primary">发送</a>
 
 			</div>
 		</div>
@@ -58,7 +58,13 @@
 			<label class="col-sm-4 control-label" for="location">重要性：</label>
 			<div class="col-sm-8">
 				<p class="form-control-static">
-					<span id="important"> {$vo.important} </span> (低 1 - 5 高)
+					<if condition="($vo.important eq '0') OR ($vo.important eq '1')">
+						<span id="important" style="color: #00008B">一般</span>
+					<elseif condition="($vo.important eq '2') OR ($vo.important eq '3')"/>
+						<span id="important" style="color: #FF8C00">重要</span>
+					<elseif condition="($vo.important eq '4') OR ($vo.important eq '5')"/>
+						<span id="important" style="color: #FF0000">非常重要</span>
+					</if>
 				</p>
 			</div>
 		</div>
@@ -67,7 +73,13 @@
 			<label class="col-sm-4 control-label" for="location">优先级：</label>
 			<div class="col-sm-8">
 				<p class="form-control-static">
-					<span id="urge"> {$vo.urge} </span> (低 1 - 5 高)
+					<if condition="($vo.urge eq '0') OR ($vo.urge eq '1')">
+						<span id="urge" style="color: #00008B">一般</span>
+					<elseif condition="($vo.urge eq '2') OR ($vo.urge eq '3')"/>
+						<span id="urge" style="color: #FF8C00">急</span>
+					<elseif condition="($vo.urge eq '4') OR ($vo.urge eq '5')"/>
+						<span id="urge" style="color: #FF0000">特急</span>
+					</if>
 				</p>
 			</div>
 		</div>
@@ -302,8 +314,8 @@
 		$(document).ready(function() {
 			show_content();
 
-			$("#important").css("background-color", schedule_bg({$vo.important}));
-			$("#urge").css("background-color", schedule_bg({$vo.urge}));
+			//$("#important").css("background-color", schedule_bg({$vo.important}));
+			//$("#urge").css("background-color", schedule_bg({$vo.urge}));
 
 			var users = '{$userlist}';
 			users = JSON.parse(users);

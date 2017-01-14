@@ -10,7 +10,7 @@
 			<div class="pull-right">
 				<a onclick="del();"  class="btn btn-sm btn-danger">删除</a>
 				<a onclick="save(1);"  class="btn btn-sm btn-primary">保存</a>
-				<a onclick="save(0);"  class="btn btn-sm btn-primary">提交</a>
+				<a onclick="save(0);"  class="btn btn-sm btn-primary">发送</a>
 			</div>
 		</div>
 	</div>
@@ -50,13 +50,14 @@
 				<div class="form-control-static" >
 					<input type="hidden" id="important" name="important"/>
 					<div id="slider_box_important" class="slider_box" >
-						<div class="left" >
-							低
-						</div>
 						<div id="basic_slider_important"></div>
-						<div class="right" >
-							高
-						</div>
+						<if condition="($vo.important eq '0') OR ($vo.important eq '1')">
+							<div class="right" style="width: 60px; color: #3388FF;">一般</div>
+						<elseif condition="($vo.important eq '2') OR ($vo.important eq '3')"/>
+							<div class="right" style="width: 60px; color: #FF8C00;">重要</div>
+						<elseif condition="($vo.important eq '4') OR ($vo.important eq '5')"/>
+							<div class="right" style="width: 60px; color: #FF0000;">非常重要</div>
+						</if>
 					</div>
 				</div>
 			</div>
@@ -68,13 +69,14 @@
 				<div class="form-control-static" >
 					<input type="hidden" id="urge" name="urge"/>
 					<div id="slider_box_urge" class="slider_box" >
-						<div class="left" >
-							低
-						</div>
 						<div id="basic_slider_urge"></div>
-						<div class="right" >
-							高
-						</div>
+						<if condition="($vo.urge eq '0') OR ($vo.urge eq '1')">
+							<div class="right" style="width: 60px; color: #3388FF;">一般</div>
+						<elseif condition="($vo.urge eq '2') OR ($vo.urge eq '3')"/>
+							<div class="right" style="width: 60px; color: #FF8C00;">急</div>
+						<elseif condition="($vo.urge eq '4') OR ($vo.urge eq '5')"/>
+							<div class="right" style="width: 60px; color: #FF0000;">特急</div>
+						</if>
 					</div>
 				</div>
 			</div>
@@ -190,7 +192,7 @@
 		$(document).ready(function() {
 			$("#basic_slider_important").noUiSlider({
 				start : {$vo.important},
-				step : 1,
+				step : 2,
 				range : {
 					'min' : 1,
 					'max' : 5,
@@ -199,12 +201,27 @@
 			$("#basic_slider_important").on('change', function() {
 				$("#slider_box_important .noUi-base").css("background-color", schedule_bg($(this).val()));
 				$("#important").val($(this).val());
+
+				switch($("#important").val()){
+					case ('1.00'):
+						$("#slider_box_important div.right").html("一般");
+						$("#slider_box_important div.right").css('color','#00008B');
+						break;
+					case ('3.00'):
+						$("#slider_box_important div.right").html("重要");
+						$("#slider_box_important div.right").css('color','#FF8C00');
+						break;
+					case ('5.00'):
+						$("#slider_box_important div.right").html("非常重要");
+						$("#slider_box_important div.right").css('color','#FF0000');
+						break;
+				}
 			});
 			
 
 			$("#basic_slider_urge").noUiSlider({
 				start : {$vo.urge},
-				step : 1,
+				step : 2,
 				range : {
 					'min' : 1,
 					'max' : 5,
@@ -213,6 +230,21 @@
 			$("#basic_slider_urge").on('change', function() {
 				$("#slider_box_urge .noUi-base").css("background-color", schedule_bg($(this).val()));
 				$("#urge").val($(this).val());
+
+				switch($("#urge").val()){
+					case ('1.00'):
+						$("#slider_box_urge div.right").html("一般");
+						$("#slider_box_urge div.right").css('color','#00008B');
+						break;
+					case ('3.00'):
+						$("#slider_box_urge div.right").html("急");
+						$("#slider_box_urge div.right").css('color','#FF8C00');
+						break;
+					case ('5.00'):
+						$("#slider_box_urge div.right").html("特急");
+						$("#slider_box_urge div.right").css('color','#FF0000');
+						break;
+				}
 			});
 			$("#important").val({$vo.important});
 			$("#urge").val({$vo.urge});

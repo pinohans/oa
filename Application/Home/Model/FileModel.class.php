@@ -179,4 +179,13 @@ class FileModel extends Model {
 		$this -> where(array('id' => $data['id'], )) -> delete();
 	}
 
+	/**
+	 * 批量下载
+	 * @param $id
+	 */
+	public function batch_download($id){
+		$path = $this -> where(array('id' => $id,)) ->field("savename,savepath") ->select();
+		return $path;
+	}
+
 }
