@@ -61,11 +61,11 @@ function trim(str) {
 /* 获取日历背景颜色*/
 function schedule_bg(j) {
 	var myArray = new Array(5);
-	myArray[0] = "#3388FF";
-	myArray[1] = "#00008B";
-	myArray[2] = "#FF8C00";
-	myArray[3] = "#FF8C00";
-	myArray[4] = "#FF0000 ";
+	myArray[0] = "#CCCCCC";
+	myArray[1] = "#99CCFF";
+	myArray[2] = "#CCFFCC";
+	myArray[3] = "#FFFFCC";
+	myArray[4] = "#FFCCCC ";
 	return myArray[j - 1];
 }
 
