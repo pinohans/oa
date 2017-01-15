@@ -2262,3 +2262,7 @@ body, h1, h2, h3, h4, h5, h6, p, ul, li, ol, dt, dl, input, textarea {
 	padding: 5px 0 0 10px;
 	display: block;
 }
+
+.ppap :hover{
+	background-color: #F0F0F0;
+}

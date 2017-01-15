@@ -15,6 +15,7 @@ class GovController extends HomeController {
 	}
 
 	function index() {
+		$plugin['jquery-ui'] = true;
 		$plugin['date'] = true;
 		$this -> assign("plugin", $plugin);
 
@@ -27,9 +28,18 @@ class GovController extends HomeController {
 		$this -> assign("folder", $folder);
 		$this -> _flow_auth_filter($folder, $map);
 
+
+		$sort = $_GET['sort'];
+		$by = $_GET['by'];
+		$order = $this -> sortVoList($sort, $by);
+
+
 		$model = D("GovView");
 
-		$this -> _list($model, $map, 'create_time desc');
+		if ($order === '') {
+			$order = 'create_time desc';
+		}
+		$this -> _list($model, $map, $order);
 
 		$this -> display();
 	}
@@ -116,7 +126,12 @@ class GovController extends HomeController {
 		if($fid=='in_recieve' or $fid=='out_recieve')
 			$model = D("GovView");
 
-		$this -> _list($model, $map, 'create_time desc');
+
+		$sort = $_GET['sort'];
+		$by = $_GET['by'];
+		$order = $this -> sortVoList($sort, $by);
+
+		$this -> _list($model, $map, $order);
 
 		$this -> display();
 	}
@@ -253,6 +268,105 @@ class GovController extends HomeController {
 
 	public function upload() {
 		$this -> _upload();
+	}
+
+
+	function batch_download($downname){
+		date_default_timezone_set("Asia/Shanghai");
+		
+		$id = explode(",", $downname); 
+		$path = "Uploads/Download/";
+		$filename = "Uploads/Download/batch.zip";
+		//$filename = "批量下载-".date("Y-m-d H:i:s");
+		$zip = new \ZipArchive;
+
+
+		$zip->open($filename, \ZipArchive::CREATE);
+		$zip->addEmptyDir('batch_download');
+		//$downname = $_POST['downname'];
+		foreach ($id as $value) {
+			$model = D("File");
+			if ($value === "") {continue;}
+			
+			$savepath = $model -> batch_download(think_decrypt($value));
+			$fileData = file_get_contents( $path . $savepath[0]['savepath'] . $savepath[0]['savename'] );
+			
+			if ($fileData) {
+        		$zip->addFromString('batch_download/' . $savepath[0]['savepath'] . $savepath[0]['savename'] , $fileData);
+    		}
+		}
+		$zip->close();
+		
+		$this ->downLocalFile($filename);
+
+		// $file = fopen($filename, "r");
+		// header('Content-Description: File Transfer');
+		// Header("Content-type: application/octet-stream");
+		// Header("Accept-Ranges: bytes");
+		// Header("Accept-Length: " . filesize($filename));
+		// Header("Content-Disposition: attachment; filename=");
+		// $buffer = 1024;
+
+		// while (!feof($file)) {
+		// 	$file_data = readfile($file, $buffer);
+		// 	echo $file_data;
+		// }
+		// fclose($file);
+
+		// unlink($filename);
+	}
+
+	function downLocalFile($file) {
+		if (is_file($file)) {
+			/* 执行下载 */ //TODO: 大文件断点续传
+			header("Content-Description: File Transfer");
+			header('Content-type: application/octet-stream');
+			header('Content-Length:' . filesize($file));
+			header('Content-Disposition: attachment; filename="' .date("Y-m-d H:i:s").'.zip"');
+			readfile($file);
+			unlink($file);
+			exit ;
+		} else {
+			$this -> error('文件已被删除!') ;
+			return false;
+		}
+	}
+
+
+	function sortVoList($sort,$by)
+	{
+		$order = "";
+		if ($sort != "" && $by != "") {
+			switch ($sort) {
+				case 'sortByImportant':
+					$order = "important ";
+					break;
+				case 'sortByUrge':
+					$order = "urge ";
+					break;
+				case 'sortBySendTime':
+					$order = "create_time ";
+					break;
+				default:
+					return "";
+			}
+
+			if ($by == 'd') {
+				$order = $order . "desc";
+				$array = array('sort' => $sort, 'by' => $by);
+				$this -> assign('sortState', $array);
+				return $order;
+			}elseif ($by == 'a'){
+				$order = $order . "asc";
+				$array = array('sort' => $sort, 'by' => $by);
+				$this -> assign('sortState', $array);
+				return $order;
+				}else{
+					return "";
+				}
+		}else{
+			return "";
+		}
 	}
 
 }
