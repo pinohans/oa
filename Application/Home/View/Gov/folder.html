@@ -82,8 +82,14 @@
 			<div class="form-group col-sm-6">
 				<label class="col-sm-4 control-label" for="be_create_time">发送时间：</label>
 				<div class="col-sm-8">
-					<div class="input-daterange input-group" >
-					    <input type="text" class="input-sm form-control text-center" name="be_create_time" readonly="readonly"/>
+					<select id="select-time-span" class="form-control" style="width:46%;float: left;">
+						<option value="7">自定义</option>
+						<option value="1">最近一周</option>
+						<option value="3">最近一月</option>
+						<option value="5">最近一年</option>
+					</select>
+					<div class="input-daterange input-group" id="input-time-span" style="padding-left: 5%;padding-top: 0.5%">
+					    <input type="text" class="input-sm form-control text-center" name="be_create_time" readonly="readonly" />
 						<span class="input-group-addon">-</span>
 						<input type="text" class="input-sm form-control text-center" name="en_create_time" readonly="readonly" />
 					</div>
@@ -183,10 +189,11 @@
 <block name="js">
 <script type="text/javascript">
 	$(document).ready(function() {
+		var ddate = "{$NowTime}";
 		set_return_url();
 		setSortState();
-		setSelect();
-		
+		setSelect(ddate);
+
 	});
 	function submit_download_id(){
 		var downname = new Array();

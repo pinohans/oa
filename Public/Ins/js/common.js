@@ -945,7 +945,7 @@ function no_select_all(){
 
 
 
-function setSelect(){
+function setSelect(ddate){
 	$("#select-beimportant").change(function(){
 		$("#be_important").val($(this).val());
 	});
@@ -958,4 +958,37 @@ function setSelect(){
 	$("#select-beurge").change(function(){
 		$("#be_urge").val($(this).val());
 	});
+
+
+	$("#select-time-span").change(function(){
+		switch ($(this).val()){
+			case ('1'):
+				$("#input-time-span input[name='be_create_time']").val(addDate(ddate,-7));
+				$("#input-time-span input[name='en_create_time']").val(ddate);
+				$("#input-time-span").addClass('hidden');
+				break;
+			case ('3'):
+				$("#input-time-span input[name='be_create_time']").val(addDate(ddate,-30));
+				$("#input-time-span input[name='en_create_time']").val(ddate);
+				$("#input-time-span").addClass('hidden');
+				break;
+			case ('5'):
+				$("#input-time-span input[name='be_create_time']").val(addDate(ddate,-365));
+				$("#input-time-span input[name='en_create_time']").val(ddate);					$("#input-time-span").addClass('hidden');
+				break;
+			case ('7'):
+				$("#input-time-span input[name='be_create_time']").val('');
+				$("#input-time-span input[name='en_create_time']").val('');
+				$("#input-time-span").removeClass('hidden');					
+				break;
+		}
+	});
+}
+
+function addDate(ddate,day){
+		var d = new Date(ddate)
+		d = d.valueOf()
+		d = d + day * 24 * 60 * 60 * 1000
+		d = new Date(d)
+		return d.getFullYear() + "-" + ((d.getMonth()<9?'0':'') + (d.getMonth()+1)) + "-" + (d.getDate()<10?'0':'') + d.getDate();
 }

@@ -45,12 +45,9 @@
 				<div class="form-control-static" >
 					<input type="hidden" id="important" name="important"/>
 					<div id="slider_box_important" class="slider_box" >
-						<div class="left" >
-							低
-						</div>
 						<div id="basic_slider_important"></div>
-						<div class="right" >
-							高
+						<div class="right" style="width: 60px; color: #00008B;">
+							一般
 						</div>
 					</div>
 				</div>
@@ -63,12 +60,9 @@
 				<div class="form-control-static" >
 					<input type="hidden" id="urge" name="urge"/>
 					<div id="slider_box_urge" class="slider_box" >
-						<div class="left" >
-							低
-						</div>
 						<div id="basic_slider_urge"></div>
-						<div class="right" >
-							高
+						<div class="right" style="width: 60px; color: #00008B;">
+							一般
 						</div>
 					</div>
 				</div>
@@ -101,8 +95,8 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#basic_slider_important").noUiSlider({
-				start : 3,
-				step : 1,
+				start : 1,
+				step : 2,
 				range : {
 					'min' : 1,
 					'max' : 5,
@@ -114,8 +108,8 @@
 			});
 
 			$("#basic_slider_urge").noUiSlider({
-				start : 3,
-				step : 1,
+				start : 1,
+				step : 2,
 				range : {
 					'min' : 1,
 					'max' : 5,
