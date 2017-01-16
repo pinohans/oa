@@ -71,7 +71,7 @@ class PublicController extends Controller {
 		}else{
 			$map = array();
 			// 支持使用绑定帐号登录
-			$map['emp_no'] = $_POST['emp_no'];
+			$map['name'] = $_POST['emp_no'];
 			$map["is_del"] = array('eq', 0);
 			$map['password']=array('eq',md5($_POST['password']));
 			$model = M("User");
