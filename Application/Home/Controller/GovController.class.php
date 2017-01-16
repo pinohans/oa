@@ -96,7 +96,7 @@ class GovController extends HomeController {
 			case 'out_darft' :
 				$this -> assign("folder_name", '师市公文草稿箱');
 				$map['user_id'] = $user_id;
-				$map['inside'] = 1;
+				$map['inside'] = 0;
 				$map['is_tmp'] = 1;
 				$map['is_del'] = 0;
 				break;

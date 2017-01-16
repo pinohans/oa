@@ -213,10 +213,10 @@ h5 {
   float: right;
 }
 .fa.arrow:before {
-  content: "\f104";
+  content: "\f107";
 }
 .active > a > .fa.arrow:before {
-  content: "\f107";
+  content: "\f106";
 }
 .nav-second-level li,
 .nav-third-level li {
