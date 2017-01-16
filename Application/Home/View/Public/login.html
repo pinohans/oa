@@ -1,67 +1,92 @@
-<extend name="Layout/ins_base" />
-<block name="content">
-	<div class="Public container">
-		<!-- /container -->
-		<div class="row">
-			<div class="col-xs-12" style="margin-top:40px;"></div>
-		</div>
-		<div class="row">
-			<div class="col-sm-4 well col-sm-offset-4">
-				<div style="margin-bottom:44px;margin-top:20px;">
-					<h1 class="text-center">{:get_system_config("system_name")}</h1>
-				</div>
-				<form method="post" id="form_login" class="form-horizontal">
-					<div class="form-group">
-						<label class="col-sm-3  control-label" for="emp_no">帐号：</label>
-						<div class="col-sm-9">
-							<input class="form-control" id="emp_no" name="emp_no" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-3  control-label" for="password">密码：</label>
-						<div class="col-sm-9">
-							<input class="form-control" id="password" type="password" name="password" />
-						</div>
-					</div>
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>{:get_system_config("system_name")}</title>
+	<meta name="viewport" content="user-scalable=no,initial-scale=1.0,maximum-scale=1.0,width=device-width">
+	<link rel="stylesheet" type="text/css" href="__INS__/css/login/reset.css">
+	<link rel="stylesheet" type="text/css" href="__INS__/css/login/login.css">
+</head>
+<body class="login_bg">
+	<div id="login_page">
+		<form method="post" id="form_login">
+			<div style="text-align: center;margin: 5% 5%;"><img src="__INS__/img/login/b.png" ></div>
+			<div class="login_ban clearfix">
+				<h2>协同办公系统账户登录</h2>
+				<div class="login_content">
+					<p style="border-bottom: 1px solid #e5e5e5;" class="clearfix">
+						<label for="username">账号</label>
+						<input type="text" id="emp_no" name="emp_no">
+					</p>
+					<p style="border-bottom: 1px solid #e5e5e5;" class="clearfix">
+						<label for="password">密码</label>
+						<input type="password" id="password" name="password" >
+					</p>
 					<notempty name="is_verify_code">
-						<div class="form-group">
-							<label class="col-sm-3  control-label" for="verify">验证码：</label>
-							<div class="col-sm-9 row">
-								<div class="col-xs-6">
-									<input class="form-control" id="verify" name="verify" />
-								</div>
-								<div class="col-xs-6">
-									<img src="{:U('verify')}" style='cursor:pointer' title='刷新验证码' id='verifyImg' onclick='freshVerify()'>
-								</div>
-							</div>
-						</div>
-					</notempty>
-					<div class="form-group hidden">
-						<span class="col-sm-3  control-label"> </span>
-						<div class="col-sm-9">
-							<label class="inline pull-left col-3">
-								<input class="ace" type="checkbox" name="remember" value="1" />
-								<span class="lbl"> </span> </label>
-							<label for="remember-me">记住我的登录状态</label>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-3 col-sm-9">
-							<input type="button" value="登录" onclick="login();" class="btn btn-sm btn-primary col-10">
-
-						</div>
-					</div>
-				</form>
+						<p class="clearfix" style="position: relative">
+							<label for="verify">验证码</label>
+							<input type="verify" id="verify" name="verify" style="position: absolute; z-index: 1">
+							<img src="{:U('verify')}" style='cursor:pointer; position: absolute; z-index: 2; right: 1px;' title='刷新验证码' id='verifyImg' onclick='freshVerify()'>
+						</p>
+					</notempty>		
+				</div>
+				<div class="login_submit">
+					<input type="submit" onclick="login();" value="登录">
+				</div>
+				<p style="position: relative;height: 80px;line-height: 80px;">
+					<span style="background-color:#d9f1fc;position: absolute;line-height:20px;padding:5px 20px;left:128px;top:5px;z-index: 3;">微信公众号及App</span>
+					<img src="__INS__/img/login/login-qr.png" style="cursor: pointer;position: absolute; right: 20px;z-index: 2;" onclick="to_qrcode();">
+				</p>
+			</div>
+		</form>
+	</div>
+	<div id="qrcode_page" style="display:none;">
+		<div style="text-align:center;margin: 5% 5%;"><img src="__INS__/img/login/b.png" ></div>
+		<div class="login_ban clearfix">
+			<h2 style="text-align:left;padding:0px 17.5px;">微信扫码<a onclick="to_qrcode();" style="float:right;font-size: 14px;color: #00a1e9;">返回</a></h2>
+			<div style="text-align: center;"><a id="weixin_tab" onclick="to_toggle(1);" class="active">微信公众号</a>&nbsp; | &nbsp;<a id="android_tab" onclick="to_toggle(2);">Android</a>&nbsp; | &nbsp;<a id="ios_tab" onclick="to_toggle(3);">iOS</a></div>
+			<div style="margin: 5% 5%;text-align:center;">
+				<p><img id="weixin_page" src="__INS__/img/login/weixin.png" style="border: 1px solid #E2E2E2;"></p>
+				<p><img id="android_page" src="__INS__/img/login/android.png" style="border: 1px solid #E2E2E2;display:none;"></p>
+				<p><img id="ios_page" src="__INS__/img/login/ios.png" style="border: 1px solid #E2E2E2;display:none;"></p>
+			</div>
+			<div style="text-align:center;margin: 10% 5%;">
+				请使用微信扫描二维码
 			</div>
 		</div>
 	</div>
-</block>
-<block name="js">
+	
+	
+	<script src="__INS__/js/jquery-2.1.1.js"></script>
+	<script src="__INS__/js/common.js"></script>
 	<script type="text/javascript">
 		function login() {
 			sendForm("form_login", "{:U('public/check_login')}");
 		}
-
+		function to_qrcode() {
+			$('#qrcode_page').toggle();
+			$('#login_page').toggle();
+		}
+		function to_toggle(id){
+			$('#weixin_page').hide();
+			$('#android_page').hide();
+			$('#ios_page').hide();
+			$('#weixin_tab').removeClass('active');
+			$('#android_tab').removeClass('active');
+			$('#ios_tab').removeClass('active');
+			if(id==1){
+				$('#weixin_page').show();
+				$('#weixin_tab').addClass('active');
+			}
+			else if(id==2){
+				$('#android_page').show();
+				$('#android_tab').addClass('active');
+			}
+			else if(id==3){
+				$('#ios_page').show();
+				$('#ios_tab').addClass('active');
+			}
+		}
 		function freshVerify() {
 			$('#verifyImg').attr("src", $('#verifyImg').attr("src") + "&" + Math.random());
 		}
@@ -79,4 +104,6 @@
 			});
 		});
 	</script>
-</block>
+</body>
+	
+</html>
