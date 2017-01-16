@@ -71,7 +71,7 @@ class PublicController extends Controller {
 		}else{
 			$map = array();
 			// 支持使用绑定帐号登录
-			$map['emp_no'] = $_POST['emp_no'];
+			$map['name'] = $_POST['emp_no'];
 			$map["is_del"] = array('eq', 0);
 			$map['password']=array('eq',md5($_POST['password']));
 			$model = M("User");
@@ -280,9 +280,12 @@ class PublicController extends Controller {
 	}
 
 	public function verify() {
-		$config = array('fontSize' => 15, // 验证码字体大小
+		$config = array('fontSize' => 18, // 验证码字体大小
 		'length' => 4, // 验证码位数
 		'useNoise' => false, // 关闭验证码杂点
+		'imageH' => 49,
+		'imageW' => 140,
+		'useCurve' =>false,
 		);
 		$verify = new \Think\Verify($config);
 		$verify -> entry(1);
