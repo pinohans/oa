@@ -107,9 +107,9 @@
 				<span class="col-13 ">类型</span>				
 			</div>
 			<div class="pull-right">
-				<span class="col-10" id="sortByImportant">重要性<i class="fa fa-sort"></i></span>
-				<span class="col-10" id="sortByUrge">优先级<i class="fa fa-sort"></i></span>
-				<span  class="col-14" id="sortBySendTime">发送时间<i class="fa fa-sort"></i></span>				
+				<span class="col-10" id="important_tab">重要性<i class="fa fa-sort"></i></span>
+				<span class="col-10" id="urge_tab">优先级<i class="fa fa-sort"></i></span>
+				<span  class="col-14" id="time_tab">发送时间<i class="fa fa-sort"></i></span>				
 				<span  class="col-6 ">发送人</span>
 				<span class="col-6 ">状态</span>
 			</div>
@@ -137,23 +137,23 @@
 						<div class="pull-right">
 							<span class="col-10 ">
 								<if condition="($vo.important eq '0') OR ($vo.important eq '1')">
-									<span style="color: #00008B">&nbsp&nbsp&nbsp一般</span>
+									<span style="color: #00008B;text-align: center;" name="important_data">一般</span>
 								<elseif condition="($vo.important eq '2') OR ($vo.important eq '3')"/>
-									<span style="color: #FF8C00">&nbsp&nbsp&nbsp重要</span>
+									<span style="color: #FF8C00;text-align: center;" name="important_data">重要</span>
 								<elseif condition="($vo.important eq '4') OR ($vo.important eq '5')"/>
-									<span style="color: #FF0000">非常重要</span>
+									<span style="color: #FF0000;text-align: center;" name="important_data">非常重要</span>
 								</if>
 							</span>
-							<span class="col-10 ">
+							<span class="col-10 " style="text-align: center;">
 								<if condition="($vo.urge eq '0') OR ($vo.urge eq '1')">
-									<span style="color: #00008B">一般</span>
+									<span style="color: #00008B;text-align: center;" name="urge_data">一般</span>
 								<elseif condition="($vo.urge eq '2') OR ($vo.urge eq '3')"/>
-									<span style="color: #FF8C00">&nbsp&nbsp急</span>
+									<span style="color: #FF8C00;text-align: center;" name="urge_data">急</span>
 								<elseif condition="($vo.urge eq '4') OR ($vo.urge eq '5')"/>
-									<span style="color: #FF0000">特急</span>
+									<span style="color: #FF0000;text-align: center;" name="urge_data">特急</span>
 								</if>
 							</span>
-							<span class="col-14   "> {$vo.create_time|to_date='Y-m-d H:i'} </span>
+							<span class="col-14" name="time_data"> {$vo.create_time|to_date='Y-m-d H:i'} </span>
 							<span class="col-6   ">{$vo.user_name}</span>
 							<span class="col-6   ">
 								<if condition="($folder eq 'in_send') OR ($folder eq 'out_send')">
@@ -208,25 +208,28 @@
 			
 		}
 
-		$("#sortByImportant,#sortByUrge,#sortBySendTime").click(function(){
+		$("#important_tab,#urge_tab,#time_tab").click(function(){
 			switch ($(this).children('i').attr('class')){
 				case ('fa fa-sort'):
-					$("#sortByImportant,#sortByUrge,#sortBySendTime").children('i').attr('class','fa fa-sort');
+					$("#important_tab,#urge_tab,#time_tab").children('i').attr('class','fa fa-sort');
 					$(this).children('i').attr('class','fa fa-sort-desc');
-					window.location.href = "{:U('index')}&sort=" + $(this).attr('id') + "&by=d";
+					$id = $(this).attr('id').substring(0,$(this).attr('id').indexOf('_')) + "_data";
+					sort_data($id,1);
 					break;
 				case ('fa fa-sort-desc'):
-					$("#sortByImportant,#sortByUrge,#sortBySendTime").children('i').attr('class','fa fa-sort');
+					$("#important_tab,#urge_tab,#time_tab").children('i').attr('class','fa fa-sort');
 					$(this).children('i').attr('class','fa fa-sort-asc');
-					window.location.href = "{:U('index')}&sort=" + $(this).attr('id') + "&by=a";
+					$id = $(this).attr('id').substring(0,$(this).attr('id').indexOf('_')) + "_data";
+					sort_data($id,-1);
 					break;
 				case ('fa fa-sort-asc'):
-					$("#sortByImportment,#sortByUrge,#sortBySendTime").children('i').attr('class','fa fa-sort');
-					$(this).children('i').attr('class','fa fa-sort');
-					window.location.href = "{:U('index')}";
+					$("#important_tab,#urge_tab,#time_tab").children('i').attr('class','fa fa-sort');
+					$(this).children('i').attr('class','fa fa-sort-desc');
+					$id = $(this).attr('id').substring(0,$(this).attr('id').indexOf('_')) + "_data";
+					sort_data($id,1);
 					break;
-			}
-		});
+		}
+	});
 	}
 
 	function submit_download_id(){

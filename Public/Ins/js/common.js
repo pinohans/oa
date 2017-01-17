@@ -992,3 +992,32 @@ function addDate(ddate,day){
 		d = new Date(d)
 		return d.getFullYear() + "-" + ((d.getMonth()<9?'0':'') + (d.getMonth()+1)) + "-" + (d.getDate()<10?'0':'') + d.getDate();
 }
+
+
+function sort_data(id,method){
+	var t=$("span[name='" + id + "']");
+	// t.sort(function(a,b) {return a.childNodes[1].childNodes[0].childNodes[0].innerHTML
+	// })
+	for (var i = t.length - 1; i >= 0; i--) {t[i].sort_id=i;}
+	//console.log(t);
+	t=t.sort(function(a,b) {
+		var string_int={"important_data":{"一般":1,"重要":3,"非常重要":5},
+		"urge_data":{"一般":1,"急":3,"特急":5}
+		};
+		if(id != "time_data"){
+			a=string_int[id][a.innerHTML];
+			b=string_int[id][b.innerHTML];
+		}
+		else{
+			a = Date.parse(new Date(a.innerHTML));
+			b = Date.parse(new Date(b.innerHTML));
+		}
+		return method*(a-b);
+	});
+	var tmp=$("#form_data li");
+	$("#form_data ul").empty();
+	for (var i = tmp.length - 1; i >= 0; i--) {
+		//console.log(t[i].sort_id);
+		$("#form_data ul").append(tmp[t[i].sort_id]);
+	}
+}
