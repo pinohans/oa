@@ -945,7 +945,7 @@ function no_select_all(){
 
 
 
-function setSelect(){
+function setSelect(ddate){
 	$("#select-beimportant").change(function(){
 		$("#be_important").val($(this).val());
 	});
@@ -958,4 +958,66 @@ function setSelect(){
 	$("#select-beurge").change(function(){
 		$("#be_urge").val($(this).val());
 	});
+
+
+	$("#select-time-span").change(function(){
+		switch ($(this).val()){
+			case ('1'):
+				$("#input-time-span input[name='be_create_time']").val(addDate(ddate,-7));
+				$("#input-time-span input[name='en_create_time']").val(ddate);
+				$("#input-time-span").addClass('hidden');
+				break;
+			case ('3'):
+				$("#input-time-span input[name='be_create_time']").val(addDate(ddate,-30));
+				$("#input-time-span input[name='en_create_time']").val(ddate);
+				$("#input-time-span").addClass('hidden');
+				break;
+			case ('5'):
+				$("#input-time-span input[name='be_create_time']").val(addDate(ddate,-365));
+				$("#input-time-span input[name='en_create_time']").val(ddate);					$("#input-time-span").addClass('hidden');
+				break;
+			case ('7'):
+				$("#input-time-span input[name='be_create_time']").val('');
+				$("#input-time-span input[name='en_create_time']").val('');
+				$("#input-time-span").removeClass('hidden');					
+				break;
+		}
+	});
+}
+
+function addDate(ddate,day){
+		var d = new Date(ddate)
+		d = d.valueOf()
+		d = d + day * 24 * 60 * 60 * 1000
+		d = new Date(d)
+		return d.getFullYear() + "-" + ((d.getMonth()<9?'0':'') + (d.getMonth()+1)) + "-" + (d.getDate()<10?'0':'') + d.getDate();
+}
+
+
+function sort_data(id,method){
+	var t=$("span[name='" + id + "']");
+	// t.sort(function(a,b) {return a.childNodes[1].childNodes[0].childNodes[0].innerHTML
+	// })
+	for (var i = t.length - 1; i >= 0; i--) {t[i].sort_id=i;}
+	//console.log(t);
+	t=t.sort(function(a,b) {
+		var string_int={"important_data":{"一般":1,"重要":3,"非常重要":5},
+		"urge_data":{"一般":1,"急":3,"特急":5}
+		};
+		if(id != "time_data"){
+			a=string_int[id][a.innerHTML];
+			b=string_int[id][b.innerHTML];
+		}
+		else{
+			a = Date.parse(new Date(a.innerHTML));
+			b = Date.parse(new Date(b.innerHTML));
+		}
+		return method*(a-b);
+	});
+	var tmp=$("#form_data li");
+	$("#form_data ul").empty();
+	for (var i = tmp.length - 1; i >= 0; i--) {
+		//console.log(t[i].sort_id);
+		$("#form_data ul").append(tmp[t[i].sort_id]);
+	}
 }

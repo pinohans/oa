@@ -7,7 +7,7 @@ class  SystemFolderModel extends CommonModel {
 
 	function get_folder_list($controller = CONTROLLER_NAME, $field = 'id,name,pid,sort') {
 		$where['controller'] = $controller;
-		#$where['is_del'] = 0;
+		$where['is_del'] = 0;
 		$list = $this -> where($where) -> order("sort") -> Field($field) -> select();
 
 		return $list;

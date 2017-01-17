@@ -28,6 +28,7 @@ class GovController extends HomeController {
 		$this -> assign("folder", $folder);
 		$this -> _flow_auth_filter($folder, $map);
 
+		$this -> get_the_time();
 
 		$sort = $_GET['sort'];
 		$by = $_GET['by'];
@@ -126,6 +127,7 @@ class GovController extends HomeController {
 		if($fid=='in_recieve' or $fid=='out_recieve')
 			$model = D("GovView");
 
+		$this -> get_the_time();
 
 		$sort = $_GET['sort'];
 		$by = $_GET['by'];
@@ -367,6 +369,15 @@ class GovController extends HomeController {
 		}else{
 			return "";
 		}
+	}
+
+
+	function get_the_time(){
+		date_default_timezone_set('Asia/Shanghai');
+		
+		$time= date('Y-m-d',time());
+		
+		$this -> assign('NowTime', $time);
 	}
 
 }
