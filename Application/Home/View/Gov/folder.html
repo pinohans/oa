@@ -98,18 +98,19 @@
 		</div>
 	</div>
 </form>
+<div><button onclick="st();">aaa</button></div>
 <div class="ul_table ul_table_responsive">
 	<ul>
 		<li class="thead" style="padding-left:10px">
 			<div class="pull-left">
 				<span class="col-8 hidden" id="select-thead">选择</span>
 				<span class="col-13 ">编号</span>
-				<span class="col-13 ">类型</span>				
+				<span class="col-13 ">类型</span>
 			</div>
 			<div class="pull-right">
 				<span class="col-10" id="important_tab">重要性<i class="fa fa-sort"></i></span>
 				<span class="col-10" id="urge_tab">优先级<i class="fa fa-sort"></i></span>
-				<span  class="col-14" id="time_tab">发送时间<i class="fa fa-sort"></i></span>			
+				<span  class="col-14" id="time_tab">发送时间<i class="fa fa-sort"></i></span>
 				<span  class="col-6 "> 发送人</span>
 				<span class="col-6 ">状态</span>
 			</div>
@@ -135,7 +136,7 @@
 							<span class="col-13  "> {$vo.type_name}</span>
 						</div>
 						<div class="pull-right">
-							<span class="col-10 ">
+							<span class="col-10">
 								<if condition="($vo.important eq '0') OR ($vo.important eq '1')">
 									<span style="color: #3388FF" name="important_data">一般</span>
 								<elseif condition="($vo.important eq '2') OR ($vo.important eq '3')"/>
@@ -144,7 +145,7 @@
 									<span style="color: #FF0000" name="important_data">非常重要</span>
 								</if>
 							</span>
-							<span class="col-10 ">
+							<span class="col-10">
 								<if condition="($vo.urge eq '0') OR ($vo.urge eq '1')">
 									<span style="color: #3388FF" name="urge_data">一般</span>
 								<elseif condition="($vo.urge eq '2') OR ($vo.urge eq '3')"/>
@@ -154,8 +155,8 @@
 								</if>
 							</span>
 							<span class="col-14" name="time_data"> {$vo.create_time|to_date='Y-m-d H:i'} </span>
-							<span class="col-6   ">{$vo.user_name}</span>
-							<span class="col-6   ">
+							<span class="col-6">{$vo.user_name}</span>
+							<span class="col-6">
 								<if condition="($folder eq 'in_send') OR ($folder eq 'out_send')">
 									<span style="color: #0000FF">已发送</span>
 								<elseif condition="($folder eq 'in_darft') OR ($folder eq 'out_darft')"/>
@@ -191,9 +192,7 @@
 	$(document).ready(function() {
 		var ddate = "{$NowTime}";
 		set_return_url();
-		setSortState();
-		setSelect(ddate);
-
+		setSelect();
 	});
 	function submit_download_id(){
 		var downname = new Array();
@@ -205,20 +204,6 @@
 
 		window.location.href = "{:U('batch_download')}&downname="+downname;
 	}
-
-	function setSortState() {
-		var sort = "{$sortState.sort}";
-		var by = "{$sortState.by}";
-		if (sort != "" && by != "") {
-			if (by == 'd') {
-				$("#" + sort).children('i').attr('class', 'fa fa-sort-desc');
-			}
-			if (by == 'a') {
-				$("#" + sort).children('i').attr('class', 'fa fa-sort-asc');
-			}
-			
-	}
-
 
 	$("#important_tab,#urge_tab,#time_tab").click(function(){
 		switch ($(this).children('i').attr('class')){
@@ -242,7 +227,5 @@
 				break;
 		}
 	});
-		
-	}
 </script>
 </block>
