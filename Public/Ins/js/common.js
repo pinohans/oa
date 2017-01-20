@@ -933,7 +933,8 @@ function select_all(){
 }
 
 function no_select_all(){
-	$("#form_data input:checkbox").prop('checked',false);
+	console.log($("#form_data input:checkbox").prop('checked'));
+	$("#form_data input:checkbox").prop('checked',function(index, oldvalue){return !oldvalue;});
 }
 
 
