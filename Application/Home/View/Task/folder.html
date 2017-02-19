@@ -69,7 +69,7 @@
 						<notempty name="no_assign_task_count">
 							<span class="badge badge-pink">{$no_assign_task_count}</span>
 						</notempty></a>
-					</li>					
+					</li>
 					<li <eq name="fid" value="finished">class="active"</eq>>
 						<a href="{:U('folder','fid=finished')}">我已完成</a>
 					</li>
@@ -78,7 +78,7 @@
 					</li>
 					<li <eq name="fid" value="my_assign">class="active"</eq>>
 						<a href="{:U('folder','fid=my_assign')}">我指派的</a>
-					</li>				
+					</li>
 				</ul>
 			</div>
 			<if condition="$auth['write']">
@@ -118,7 +118,7 @@
 							<span class="col-8 ">{$vo.user_name}</span>
 						</div>
 						<div class="pull-right">
-							<span class="col-20 autocut">&nbsp;{$vo.executor|show_contact}</span>
+							<span class="col-20 autocut">{$vo.executor|show_contact}</span>
 							<span class="col-12">{$vo.create_time|to_date='Y-m-d H:i'}&nbsp;</span>
 							<span class="col-12">{$vo.expected_time|substr=0,16}&nbsp;</span>
 							<span class="col-6">{$vo.status|task_status}&nbsp;</span>
